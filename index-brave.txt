@@ -2,17 +2,20 @@
 ! Title: Index.hr - Brave Android targeted filters
 ! Description: Index.hr-only filters using conservative ABP network and cosmetic syntax.
 ! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
-! Version: 2026-09-04.5
+! Version: 2026-09-04.6
 ! Expires: 1 day
 
-! Network: ad/anti-adblock infrastructure observed in current Index reports
-! Use broad third-party matching here because the ad iframe is a subdocument/navigation,
-! not necessarily a request that Brave classifies as $subdocument at filter time.
-||u.openx.net^$third-party,domain=index.hr
-||openx.net^$third-party,domain=index.hr
-||html-load.com^$script,xhr,third-party,domain=index.hr
-||content-loader.com^$script,third-party,domain=index.hr
-||content-load.com^$script,third-party,domain=index.hr
+! Network: OpenX is visibly embedded by the live Index page
+||u.openx.net^
+||openx.net^
+||eu-u.openx.net^
+||us-u.openx.net^
+||rtb.openx.net^
+
+! Network: anti-adblock / loader infrastructure reported for Index
+||html-load.com^$script,xhr,third-party
+||content-loader.com^$script,third-party
+||content-load.com^$script,third-party
 
 ! Network: concrete redirect/creative host supplied from an Index ad
 ||7.stg.tuba.stiffpast.com^$third-party
@@ -28,6 +31,6 @@ index.hr##.premium-sticky
 index.hr##div[data-ocm-ad]
 index.hr##main > div[data-has-close-btn="true"]
 
-! Cosmetic: current live Index page exposes OpenX ad iframe
+! Cosmetic: live Index page currently exposes OpenX ad iframes
 index.hr##iframe[src*="u.openx.net"]
 index.hr##iframe[src*="openx.net"]

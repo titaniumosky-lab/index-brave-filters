@@ -2,7 +2,7 @@
 ! Title: Index.hr - Brave Android targeted filters
 ! Description: Index.hr-only filters using conservative ABP network and cosmetic syntax.
 ! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
-! Version: 2026-09-04.2
+! Version: 2026-09-04.3
 ! Expires: 1 day
 
 ! Network: ad/anti-adblock infrastructure observed in current Index reports
@@ -11,6 +11,11 @@
 ||html-load.com^$script,xhr,third-party,domain=index.hr
 ||content-loader.com^$script,third-party,domain=index.hr
 ||content-load.com^$script,third-party,domain=index.hr
+
+! Network: concrete redirect/creative host supplied from an Index ad
+||stiffpast.com^$third-party,domain=index.hr
+||tuba.stiffpast.com^$third-party,domain=index.hr
+||7.stg.tuba.stiffpast.com^$document,domain=index.hr
 
 ! Cosmetic: current Index/AdGuard/Dandelion ad slots
 index.hr##.js-slot-container

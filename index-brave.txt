@@ -2,18 +2,19 @@
 ! Title: Index.hr - Brave Android targeted filters
 ! Description: Index.hr-only filters using conservative ABP network and cosmetic syntax.
 ! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
-! Version: 2026-09-04.4
+! Version: 2026-09-04.5
 ! Expires: 1 day
 
 ! Network: ad/anti-adblock infrastructure observed in current Index reports
-||u.openx.net^$subdocument,domain=index.hr
-||openx.net^$subdocument,domain=index.hr
+! Use broad third-party matching here because the ad iframe is a subdocument/navigation,
+! not necessarily a request that Brave classifies as $subdocument at filter time.
+||u.openx.net^$third-party,domain=index.hr
+||openx.net^$third-party,domain=index.hr
 ||html-load.com^$script,xhr,third-party,domain=index.hr
 ||content-loader.com^$script,third-party,domain=index.hr
 ||content-load.com^$script,third-party,domain=index.hr
 
 ! Network: concrete redirect/creative host supplied from an Index ad
-! No request-type restriction: covers popup/Other navigations produced by window.open().
 ||7.stg.tuba.stiffpast.com^$third-party
 ||tuba.stiffpast.com^$third-party
 ||stiffpast.com^$third-party
@@ -26,3 +27,7 @@ index.hr##.google-box
 index.hr##.premium-sticky
 index.hr##div[data-ocm-ad]
 index.hr##main > div[data-has-close-btn="true"]
+
+! Cosmetic: current live Index page exposes OpenX ad iframe
+index.hr##iframe[src*="u.openx.net"]
+index.hr##iframe[src*="openx.net"]

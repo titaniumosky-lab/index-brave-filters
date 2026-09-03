@@ -1,0 +1,21 @@
+[Adblock Plus 3.10]
+! Title: Index.hr - Brave Android targeted filters
+! Description: Conservative network/cosmetic rules for Index.hr using Brave-compatible ABP syntax.
+! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
+! Update: 2026-09-04
+! Tested against current public Index.hr markup and current public filter sources.
+
+! --- Network blocking ---
+||u.openx.net^$subdocument,domain=index.hr
+||openx.net^$subdocument,domain=index.hr
+||html-load.com^$script,third-party,domain=index.hr
+||content-loader.com^$script,third-party,domain=index.hr
+||content-load.com^$script,third-party,domain=index.hr
+
+! --- Cosmetic blocking: known Index.hr ad slots ---
+index.hr##.google-billboard-top
+index.hr##.google-billboard
+index.hr##.google-box
+index.hr##.comments-holder > .right-part
+index.hr##.categories > div.cube-holder:has(> div[data-css-class="google-box center-aligner"])
+index.hr##.premium-sticky

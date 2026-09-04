@@ -2,6 +2,7 @@
 ! Title: Global Ad Firewall Core
 ! Description: Conservative, browser-safe global ad/tracker core for Brave.
 ! Version: 2026-09-04.2
+! Status: FINAL
 ! Expires: 1 day
 ! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
 ! Design: standard ABP network + plain CSS cosmetic syntax only.

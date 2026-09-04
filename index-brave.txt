@@ -1,36 +1,10 @@
 [Adblock Plus 3.10]
-! Title: Index.hr - Brave Android targeted filters
-! Description: Index.hr-only filters using conservative ABP network and cosmetic syntax.
+! Title: Index.hr - Brave Android diagnostic
+! Description: Diagnostic version with no cosmetic filters and no real blocking rules.
 ! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
-! Version: 2026-09-04.8
+! Version: 2026-09-04.9-DIAG
 ! Expires: 1 day
 
-! Network: OpenX
-||u.openx.net^
-||openx.net^
-||eu-u.openx.net^
-||us-u.openx.net^
-||rtb.openx.net^
-
-! Network: loader / anti-adblock infrastructure
-||html-load.com^$script,xhr,third-party
-||content-loader.com^$script,third-party
-||content-load.com^$script,third-party
-
-! Network: concrete redirect/creative host supplied from an Index ad
-||7.stg.tuba.stiffpast.com^$third-party
-||tuba.stiffpast.com^$third-party
-||stiffpast.com^$third-party
-
-! Cosmetic: current Index/AdGuard/Dandelion ad slots
-index.hr##.js-slot-container
-index.hr##.google-billboard-top
-index.hr##.google-billboard
-index.hr##.google-box
-index.hr##.premium-sticky
-index.hr##div[data-ocm-ad]
-index.hr##main > div[data-has-close-btn="true"]
-
-! Cosmetic: OpenX iframes
-index.hr##iframe[src*="u.openx.net"]
-index.hr##iframe[src*="openx.net"]
+! Deliberately empty diagnostic list.
+! This file must NOT hide or block any Index.hr page element.
+||example.invalid^

@@ -1,0 +1,29 @@
+[Adblock Plus 3.10]
+! Title: Index.hr - Brave Android targeted filters v2
+! Description: Conservative Index.hr filters. No procedural/scriptlet rules.
+! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
+! Version: 2026-09-04.1
+! Expires: 1 day
+
+! Verified ad/redirect infrastructure seen with Index.hr
+||u.openx.net^$3p,domain=index.hr
+||openx.net^$3p,domain=index.hr
+||html-load.com^$script,xhr,3p,domain=index.hr
+||content-loader.com^$script,3p,domain=index.hr
+||content-load.com^$script,3p,domain=index.hr
+||7.stg.tuba.stiffpast.com^$3p,domain=index.hr
+||tuba.stiffpast.com^$3p,domain=index.hr
+||stiffpast.com^$3p,domain=index.hr
+
+! Verified Index.hr ad-slot selectors from current upstream filters
+index.hr##.premium-sticky
+index.hr##.google-billboard-top
+index.hr##.js-slot-container
+index.hr##div[data-ocm-ad]
+
+! Current Index.hr page exposes an OpenX iframe
+index.hr##iframe[src*="u.openx.net"]
+index.hr##iframe[src*="openx.net"]
+
+! Current Dandelion rule for an Index Google ad box
+index.hr##.categories > div.cube-holder:has(> div[data-css-class="google-box center-aligner"])

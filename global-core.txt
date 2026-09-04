@@ -1,0 +1,95 @@
+[Adblock Plus 3.10]
+! Title: Global Ad Firewall Core
+! Description: Conservative, browser-safe global ad/tracker core for Brave.
+! Version: 2026-09-04.1
+! Expires: 1 day
+! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
+! Design: standard ABP network + plain CSS cosmetic syntax only.
+! No scriptlets, HTML filters, response rewrites, or page-wide selectors.
+
+! ===== Global ad-tech / RTB / ad-serving networks =====
+||doubleclick.net^$3p
+||googlesyndication.com^$3p
+||googleadservices.com^$3p
+||adservice.google.com^$3p
+||adnxs.com^$3p
+||appnexus.com^$3p
+||criteo.com^$3p
+||rubiconproject.com^$3p
+||pubmatic.com^$3p
+||adsrvr.org^$3p
+||openx.net^$3p
+||smartadserver.com^$3p
+||33across.com^$3p
+||bidswitch.net^$3p
+||casalemedia.com^$3p
+||indexww.com^$3p
+||advertising.com^$3p
+||yieldmo.com^$3p
+||lijit.com^$3p
+||sharethrough.com^$3p
+||sovrn.com^$3p
+||media.net^$3p
+||taboola.com^$3p
+||outbrain.com^$3p
+||revcontent.com^$3p
+||mgid.com^$3p
+||zergnet.com^$3p
+||popads.net^$3p
+||popcash.net^$3p
+||propellerads.com^$3p
+||exoclick.com^$3p
+||adsterra.com^$3p
+||hilltopads.net^$3p
+||quantserve.com^$3p
+||scorecardresearch.com^$3p
+||googletagservices.com^$3p
+||moatads.com^$3p
+||adsafeprotected.com^$3p
+||doubleverify.com^$3p
+||smaato.net^$3p
+||nobid.io^$3p
+||omnitagjs.com^$3p
+
+! ===== High-confidence ad resource endpoints =====
+*/adsbygoogle.js$script,3p
+*/pagead/js/adsbygoogle.js$script,3p
+*/show_ads.js$script,3p
+*/ads.js$script,3p
+*/ad.js$script,3p
+*/advert.js$script,3p
+*/advertising.js$script,3p
+*/adserver.js$script,3p
+
+! ===== High-confidence generic ad DOM markers =====
+##ins.adsbygoogle
+##[id^="google_ads_iframe"]
+##[id^="div-gpt-ad"]
+##[data-ad-slot]
+##[data-ad-unit]
+##[data-ad-client]
+##[class*="ad-container"]
+##[class*="ad-banner"]
+##[class*="ad-slot"]
+##[class*="ad-wrapper"]
+##[id*="ad-container"]
+##[id*="ad-banner"]
+##[id*="ad-slot"]
+##[id*="ad-wrapper"]
+##[class*="advertisement"]
+##[id*="advertisement"]
+##[aria-label*="Advertisement" i]
+##iframe[src*="doubleclick.net"]
+##iframe[src*="googlesyndication.com"]
+##iframe[src*="googletagservices.com"]
+##iframe[src*="adsrvr.org"]
+##iframe[src*="adnxs.com"]
+##iframe[src*="openx.net"]
+##iframe[src*="pubmatic.com"]
+##iframe[src*="rubiconproject.com"]
+##iframe[src*="smartadserver.com"]
+
+! ===== Popunder / click-redirect destinations =====
+||popunder.net^$3p
+||onclickads.net^$3p
+||juicyads.com^$3p

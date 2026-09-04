@@ -1,17 +1,18 @@
 [Adblock Plus 3.10]
 ! Title: Global Ad Firewall Core
 ! Description: Conservative, browser-safe global ad/tracker core for Brave.
-! Version: 2026-09-04.1
+! Version: 2026-09-04.2
 ! Expires: 1 day
 ! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
 ! Design: standard ABP network + plain CSS cosmetic syntax only.
-! No scriptlets, HTML filters, response rewrites, or page-wide selectors.
+! No scriptlets, HTML filters, response rewrites, generic [class*="ad"] selectors, or page-wide selectors.
 
 ! ===== Global ad-tech / RTB / ad-serving networks =====
 ||doubleclick.net^$3p
 ||googlesyndication.com^$3p
 ||googleadservices.com^$3p
 ||adservice.google.com^$3p
+||googletagservices.com^$3p
 ||adnxs.com^$3p
 ||appnexus.com^$3p
 ||criteo.com^$3p
@@ -43,51 +44,60 @@
 ||hilltopads.net^$3p
 ||quantserve.com^$3p
 ||scorecardresearch.com^$3p
-||googletagservices.com^$3p
 ||moatads.com^$3p
 ||adsafeprotected.com^$3p
 ||doubleverify.com^$3p
 ||smaato.net^$3p
+||amazon-adsystem.com^$3p
+||adform.net^$3p
+||teads.tv^$3p
+||triplelift.com^$3p
+||richaudience.com^$3p
+||contextweb.com^$3p
+||loopme.me^$3p
+||onetag-sys.com^$3p
+||primis.tech^$3p
+||spotxchange.com^$3p
+||stackadapt.com^$3p
+||sitescout.com^$3p
+||simpli.fi^$3p
+||weborama.fr^$3p
+||gemius.pl^$3p
+||adition.com^$3p
+||sonobi.com^$3p
+||freewheel.tv^$3p
+||adkernel.com^$3p
+||admixer.net^$3p
+||improvedigital.com^$3p
+||adroll.com^$3p
+||nativo.com^$3p
+||gumgum.com^$3p
+||dianomi.com^$3p
+||connatix.com^$3p
+||inmobi.com^$3p
 ||nobid.io^$3p
 ||omnitagjs.com^$3p
 
-! ===== High-confidence ad resource endpoints =====
+! ===== High-confidence third-party ad resources =====
 */adsbygoogle.js$script,3p
-*/pagead/js/adsbygoogle.js$script,3p
 */show_ads.js$script,3p
-*/ads.js$script,3p
-*/ad.js$script,3p
-*/advert.js$script,3p
-*/advertising.js$script,3p
-*/adserver.js$script,3p
+*/show_ads_impl.js$script,3p
+*/gpt.js$script,3p
+*/pubads_impl*.js$script,3p
+*/prebid*.js$script,3p
+*/apstag.js$script,3p
 
-! ===== High-confidence generic ad DOM markers =====
+! ===== High-confidence ad DOM markers =====
 ##ins.adsbygoogle
+##.adsbygoogle
 ##[id^="google_ads_iframe"]
 ##[id^="div-gpt-ad"]
+##[id^="adfox_"]
 ##[data-ad-slot]
 ##[data-ad-unit]
 ##[data-ad-client]
-##[class*="ad-container"]
-##[class*="ad-banner"]
-##[class*="ad-slot"]
-##[class*="ad-wrapper"]
-##[id*="ad-container"]
-##[id*="ad-banner"]
-##[id*="ad-slot"]
-##[id*="ad-wrapper"]
-##[class*="advertisement"]
-##[id*="advertisement"]
-##[aria-label*="Advertisement" i]
-##iframe[src*="doubleclick.net"]
-##iframe[src*="googlesyndication.com"]
-##iframe[src*="googletagservices.com"]
-##iframe[src*="adsrvr.org"]
-##iframe[src*="adnxs.com"]
-##iframe[src*="openx.net"]
-##iframe[src*="pubmatic.com"]
-##iframe[src*="rubiconproject.com"]
-##iframe[src*="smartadserver.com"]
+##.advertisement
+##[id="advertisement"]
 
 ! ===== Popunder / click-redirect destinations =====
 ||popunder.net^$3p

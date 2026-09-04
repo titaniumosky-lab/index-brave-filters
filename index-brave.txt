@@ -1,13 +1,9 @@
 [Adblock Plus 3.10]
 ! Title: Index.hr - Brave Android targeted filters
-! Description: Index.hr-only filters; temporary subscription canary included.
+! Description: Index.hr-only filters using conservative ABP network and cosmetic syntax.
 ! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
-! Version: 2026-09-04.7-CANARY
+! Version: 2026-09-04.8
 ! Expires: 1 day
-
-! TEMPORARY CANARY — proves whether Brave actually applies this remote subscription.
-! If the subscription is active, the entire Index page will become invisible.
-index.hr##body
 
 ! Network: OpenX
 ||u.openx.net^

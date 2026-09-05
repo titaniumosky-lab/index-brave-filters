@@ -2,7 +2,7 @@
 ! Title: Index.hr - Brave Android targeted filters v2
 ! Description: Conservative Index.hr filters. No procedural/scriptlet rules.
 ! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
-! Version: 2026-09-05.5
+! Version: 2026-09-05.6
 ! Expires: 1 day
 
 ! Verified ad/redirect infrastructure seen with Index.hr
@@ -48,3 +48,6 @@ index.hr##[id^="google_ads_iframe_"]
 index.hr##div[id^="div-gpt-ad"]
 index.hr##[id^="div-gpt-ad"]
 index.hr##ins.adsbygoogle
+
+! TEMPORARY SUBSCRIPTION CANARY — visible footer must disappear if this list is active
+index.hr##footer

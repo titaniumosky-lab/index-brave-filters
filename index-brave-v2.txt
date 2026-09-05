@@ -2,7 +2,7 @@
 ! Title: Index.hr - Brave Android targeted filters v2
 ! Description: Conservative Index.hr filters. No procedural/scriptlet rules.
 ! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
-! Version: 2026-09-04.1
+! Version: 2026-09-05.1
 ! Expires: 1 day
 
 ! Verified ad/redirect infrastructure seen with Index.hr
@@ -14,6 +14,10 @@
 ||7.stg.tuba.stiffpast.com^$3p,domain=index.hr
 ||tuba.stiffpast.com^$3p,domain=index.hr
 ||stiffpast.com^$3p,domain=index.hr
+
+! Verified Index.hr redirect/creative infrastructure: ColourPike staging host
+! Concrete observed URLs: 2.stg.kit.colourpike.com and 7.stg.kit.colourpike.com
+||stg.kit.colourpike.com^$3p,domain=index.hr
 
 ! Verified Index.hr ad-slot selectors from current upstream filters
 index.hr##.premium-sticky

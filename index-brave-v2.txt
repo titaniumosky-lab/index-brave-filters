@@ -2,7 +2,7 @@
 ! Title: Index.hr - Brave Android targeted filters v2
 ! Description: Conservative Index.hr filters. No procedural/scriptlet rules.
 ! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
-! Version: 2026-09-05.4
+! Version: 2026-09-05.5
 ! Expires: 1 day
 
 ! Verified ad/redirect infrastructure seen with Index.hr
@@ -41,3 +41,10 @@ index.hr##iframe[src*="openx.net"]
 
 ! Current Dandelion rule for an Index Google ad box
 index.hr##.categories > div.cube-holder:has(> div[data-css-class="google-box center-aligner"])
+
+! Targeted Google Ad Manager / GPT slots on Index.hr
+index.hr##iframe[id^="google_ads_iframe_"]
+index.hr##[id^="google_ads_iframe_"]
+index.hr##div[id^="div-gpt-ad"]
+index.hr##[id^="div-gpt-ad"]
+index.hr##ins.adsbygoogle

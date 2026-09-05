@@ -2,7 +2,7 @@
 ! Title: Index.hr - Brave Android targeted filters v2
 ! Description: Conservative Index.hr filters. No procedural/scriptlet rules.
 ! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
-! Version: 2026-09-05.7
+! Version: 2026-09-05.8
 ! Expires: 1 day
 
 ! Verified ad/redirect infrastructure seen with Index.hr
@@ -15,8 +15,16 @@
 ||tuba.stiffpast.com^$3p,domain=index.hr
 ||stiffpast.com^$3p,domain=index.hr
 
+! Google ad delivery / measurement hosts — Index.hr only
+||doubleclick.net^$3p,domain=index.hr
+||googlesyndication.com^$3p,domain=index.hr
+||googleadservices.com^$3p,domain=index.hr
+||googletagservices.com^$3p,domain=index.hr
+||adservice.google.com^$3p,domain=index.hr
+||pagead2.googlesyndication.com^$3p,domain=index.hr
+||tpc.googlesyndication.com^$3p,domain=index.hr
+
 ! Verified Index.hr redirect/creative infrastructure: ColourPike staging host
-! Network blocks for the observed ColourPike staging hosts.
 ||stg.kit.colourpike.com^
 ||2.stg.kit.colourpike.com^
 ||7.stg.kit.colourpike.com^
@@ -34,10 +42,6 @@ index.hr##.google-box
 index.hr##.js-slot-container
 index.hr##div[data-ocm-ad]
 index.hr##main > div[data-has-close-btn="true"]
-
-! Additional current upstream Index.hr ad containers
-index.hr##.comments-holder > .right-part
-index.hr##.main-loader.transparent
 
 ! Current Index.hr page exposes an OpenX iframe
 index.hr##iframe[src*="u.openx.net"]

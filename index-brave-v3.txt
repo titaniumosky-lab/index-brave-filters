@@ -1,0 +1,81 @@
+[Adblock Plus 3.10]
+! Title: Index.hr - Brave Android targeted filters v3
+! Description: Index.hr targeted filters with redirect/ad infrastructure blocking. No procedural/scriptlet rules.
+! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
+! Version: 2026-09-07.1
+! Expires: 1 day
+
+! ============================================================
+! Index.hr ad / redirect infrastructure
+! ============================================================
+||u.openx.net^$3p,domain=index.hr
+||openx.net^$3p,domain=index.hr
+||html-load.com^$script,xhr,3p,domain=index.hr
+||content-loader.com^$script,3p,domain=index.hr
+||content-load.com^$script,3p,domain=index.hr
+||7.stg.tuba.stiffpast.com^$3p,domain=index.hr
+||tuba.stiffpast.com^$3p,domain=index.hr
+||stiffpast.com^$3p,domain=index.hr
+
+! Redirect / session infrastructure observed from Index.hr ad traffic
+! Blocks the whole registrable domain, including changing subdomains/paths.
+||frizzsince.com^
+
+! ============================================================
+! Google advertising / measurement hosts — Index.hr only
+! ============================================================
+||doubleclick.net^$3p,domain=index.hr
+||googlesyndication.com^$3p,domain=index.hr
+||googleadservices.com^$3p,domain=index.hr
+||googletagservices.com^$3p,domain=index.hr
+||adservice.google.com^$3p,domain=index.hr
+||pagead2.googlesyndication.com^$3p,domain=index.hr
+||tpc.googlesyndication.com^$3p,domain=index.hr
+
+! ============================================================
+! ColourPike staging / creative infrastructure
+! ============================================================
+||stg.kit.colourpike.com^
+||2.stg.kit.colourpike.com^
+||7.stg.kit.colourpike.com^
+||8.stg.kit.colourpike.com^
+
+! Hide direct links to ad infrastructure.
+index.hr##a[href*="stg.kit.colourpike.com"]
+index.hr##a[href*="colourpike.com"]
+
+! ============================================================
+! Index.hr ad-slot cosmetic filters
+! ============================================================
+index.hr##.premium-sticky
+index.hr##.google-billboard-top
+index.hr##.google-billboard
+index.hr##.google-box
+index.hr##.js-slot-container
+index.hr##div[data-ocm-ad]
+index.hr##main > div[data-has-close-btn="true"]
+
+! OpenX iframe
+index.hr##iframe[src*="u.openx.net"]
+index.hr##iframe[src*="openx.net"]
+
+! Dandelion / Google box
+index.hr##.categories > div.cube-holder:has(> div[data-css-class="google-box center-aligner"])
+
+! Google Ad Manager / GPT slots
+index.hr##iframe[id^="google_ads_iframe_"]
+index.hr##[id^="google_ads_iframe_"]
+index.hr##div[id^="div-gpt-ad"]
+index.hr##[id^="div-gpt-ad"]
+index.hr##ins.adsbygoogle
+
+! ============================================================
+! Common ad container fallbacks seen around Google/AdChoices
+! Kept narrowly scoped to Index.hr to avoid collateral blocking.
+! ============================================================
+index.hr##[data-ad-slot]
+index.hr##[data-ad-client]
+index.hr##[data-google-query-id]
+index.hr##.adsbygoogle
+index.hr##.ad-container
+index.hr##.ad-slot

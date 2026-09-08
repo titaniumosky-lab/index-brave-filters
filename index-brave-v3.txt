@@ -2,8 +2,7 @@
 ! Title: Index.hr - Brave Android targeted filters v3
 ! Description: Index.hr targeted filters with redirect/ad infrastructure blocking. No procedural/scriptlet rules.
 ! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
-! Version: 2026-09-07.1
-! Expires: 1 day
+! Version: 2026-09-08.1
 
 ! ============================================================
 ! Index.hr ad / redirect infrastructure
@@ -19,7 +18,8 @@
 
 ! Redirect / session infrastructure observed from Index.hr ad traffic
 ! Blocks the whole registrable domain, including changing subdomains/paths.
-||frizzsince.com^
+||frizzsince.com^$3p,domain=index.hr
+||hmphpeppery.com^$3p,domain=index.hr
 
 ! ============================================================
 ! Google advertising / measurement hosts — Index.hr only
@@ -35,10 +35,10 @@
 ! ============================================================
 ! ColourPike staging / creative infrastructure
 ! ============================================================
-||stg.kit.colourpike.com^
-||2.stg.kit.colourpike.com^
-||7.stg.kit.colourpike.com^
-||8.stg.kit.colourpike.com^
+||stg.kit.colourpike.com^$3p,domain=index.hr
+||2.stg.kit.colourpike.com^$3p,domain=index.hr
+||7.stg.kit.colourpike.com^$3p,domain=index.hr
+||8.stg.kit.colourpike.com^$3p,domain=index.hr
 
 ! Hide direct links to ad infrastructure.
 index.hr##a[href*="stg.kit.colourpike.com"]
@@ -59,15 +59,17 @@ index.hr##main > div[data-has-close-btn="true"]
 index.hr##iframe[src*="u.openx.net"]
 index.hr##iframe[src*="openx.net"]
 
-! Dandelion / Google box
-index.hr##.categories > div.cube-holder:has(> div[data-css-class="google-box center-aligner"])
-
-! Google Ad Manager / GPT slots
+! Google ad iframes / GPT slots
 index.hr##iframe[id^="google_ads_iframe_"]
 index.hr##[id^="google_ads_iframe_"]
 index.hr##div[id^="div-gpt-ad"]
 index.hr##[id^="div-gpt-ad"]
+index.hr##iframe[src*="doubleclick.net"]
+index.hr##iframe[src*="googlesyndication.com"]
 index.hr##ins.adsbygoogle
+
+! Dandelion / Google box
+index.hr##.categories > div.cube-holder:has(> div[data-css-class="google-box center-aligner"])
 
 ! ============================================================
 ! Common ad container fallbacks seen around Google/AdChoices

@@ -1,0 +1,94 @@
+[Adblock Plus 3.10]
+! Title: Index.hr - Brave targeted lockdown
+! Description: Targeted Index.hr ad/redirect blocking. No global 3p frame kill-switch; preserves ordinary third-party frames while blocking known ad delivery, ad frames, campaign embeds, and ad containers.
+! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
+! Version: 2026-09-09.1
+
+! ============================================================
+! INDEX.HR FIRST-PARTY AD / CAMPAIGN DELIVERY
+! ============================================================
+||index.hr/embed/carousel/*
+||index.hr/embed/carousel/*?countUpImpression=
+
+! ============================================================
+! KNOWN THIRD-PARTY AD / REDIRECT INFRASTRUCTURE
+! Restricted to requests originating from Index.hr.
+! ============================================================
+||u.openx.net^$3p,domain=index.hr
+||openx.net^$3p,domain=index.hr
+||html-load.com^$script,xhr,3p,domain=index.hr
+||content-loader.com^$script,3p,domain=index.hr
+||content-load.com^$script,3p,domain=index.hr
+||7.stg.tuba.stiffpast.com^$3p,domain=index.hr
+||tuba.stiffpast.com^$3p,domain=index.hr
+||stiffpast.com^$3p,domain=index.hr
+||frizzsince.com^$3p,domain=index.hr
+||hmphpeppery.com^$3p,domain=index.hr
+||whoinasmuch.com^$3p,domain=index.hr
+
+! ============================================================
+! GOOGLE ADVERTISING / MEASUREMENT HOSTS
+! ============================================================
+||doubleclick.net^$3p,domain=index.hr
+||googlesyndication.com^$3p,domain=index.hr
+||googleadservices.com^$3p,domain=index.hr
+||googletagservices.com^$3p,domain=index.hr
+||adservice.google.com^$3p,domain=index.hr
+||pagead2.googlesyndication.com^$3p,domain=index.hr
+||tpc.googlesyndication.com^$3p,domain=index.hr
+
+! ============================================================
+! COLOURPIKE / CREATIVE INFRASTRUCTURE
+! ============================================================
+||stg.kit.colourpike.com^$3p,domain=index.hr
+||2.stg.kit.colourpike.com^$3p,domain=index.hr
+||7.stg.kit.colourpike.com^$3p,domain=index.hr
+||8.stg.kit.colourpike.com^$3p,domain=index.hr
+
+! ============================================================
+! DIRECT AD-URL CLEANUP
+! ============================================================
+index.hr##a[href*="stg.kit.colourpike.com"]
+index.hr##a[href*="colourpike.com"]
+
+! ============================================================
+! INDEX.HR AD-SLOT COSMETIC FILTERS
+! ============================================================
+index.hr##.premium-sticky
+index.hr##.google-billboard-top
+index.hr##.google-billboard
+index.hr##.google-box
+index.hr##.js-slot-container
+index.hr##div[data-ocm-ad]
+index.hr##main > div[data-has-close-btn="true"]
+index.hr##.categories > div.cube-holder:has(> div[data-css-class="google-box center-aligner"])
+index.hr##.comments-holder > .right-part
+index.hr##.js-carousel-campaign
+
+! ============================================================
+! RESIDUAL AD IFRAME / DOM CLEANUP
+! ============================================================
+index.hr##iframe[src*="u.openx.net"]
+index.hr##iframe[src*="openx.net"]
+index.hr##iframe[src*="doubleclick.net"]
+index.hr##iframe[src*="googlesyndication.com"]
+index.hr##iframe[id^="google_ads_iframe_"]
+index.hr##[id^="google_ads_iframe_"]
+index.hr##div[id^="div-gpt-ad"]
+index.hr##[id^="div-gpt-ad"]
+index.hr##ins.adsbygoogle
+index.hr##[data-ad-slot]
+index.hr##[data-ad-client]
+index.hr##[data-google-query-id]
+index.hr##.adsbygoogle
+index.hr##.ad-container
+index.hr##.ad-slot
+
+! ============================================================
+! INTENTIONALLY NOT USED
+! ============================================================
+! No global third-party frame blocking.
+! No global third-party script blocking.
+! No procedural :has-text() rules.
+! No scriptlets.
+! This prevents the anti-adblock loop seen with the former v4 frame kill-switch.

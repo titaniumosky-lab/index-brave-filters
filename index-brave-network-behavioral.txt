@@ -2,12 +2,10 @@
 ! Title: Index.hr - Brave network behavioral layer
 ! Description: Second-layer network blocking for Index.hr. Uses request-type and URL-pattern heuristics in addition to known ad domains. No global third-party frame blocking.
 ! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
-! Version: 2026-09-09.1
+! Version: 2026-09-09.2
 
 ! ============================================================
 ! CERTAIN AD NETWORKS — FORCE BLOCK
-! important prevents later exception rules from restoring these
-! requests where supported by Brave's adblock engine.
 ! ============================================================
 ||u.openx.net^$3p,important,domain=index.hr
 ||openx.net^$3p,important,domain=index.hr
@@ -24,7 +22,7 @@
 ||8.stg.kit.colourpike.com^$3p,important,domain=index.hr
 
 ! ============================================================
-! AD/REDIRECT HOSTS ALREADY OBSERVED ON INDEX.HR
+! AD / REDIRECT HOSTS ALREADY OBSERVED ON INDEX.HR
 ! ============================================================
 ||html-load.com^$script,xhr,3p,important,domain=index.hr
 ||content-loader.com^$script,3p,important,domain=index.hr
@@ -38,29 +36,27 @@
 
 ! ============================================================
 ! FIRST-PARTY AD DELIVERY / REINSERTION PATTERNS
-! Scoped to Index.hr and limited to network request types that
-! are commonly used for ad delivery. These are heuristic rules.
+! Limited to network request types commonly used to fetch ads.
+! These are heuristic rules, not a guarantee against future paths.
 ! ============================================================
-||index.hr/*/adserver/*$script,xhr,fetch
-||index.hr/*/ads/*$script,xhr,fetch
-||index.hr/*/advert*/*$script,xhr,fetch
-||index.hr/*/prebid/*$script,xhr,fetch
-||index.hr/*/googletag/*$script,xhr,fetch
-||index.hr/*/doubleclick/*$script,xhr,fetch
-||index.hr/*/adservice/*$script,xhr,fetch
-||index.hr/*/sponsor*/*$script,xhr,fetch
-
-! Campaign/reinsertion endpoints
-||index.hr/embed/carousel/*
-||index.hr/*countUpImpression* $xhr
+||index.hr/*/adserver/*$script,xhr,domain=index.hr
+||index.hr/*/ads/*$script,xhr,domain=index.hr
+||index.hr/*/advert*/*$script,xhr,domain=index.hr
+||index.hr/*/prebid/*$script,xhr,domain=index.hr
+||index.hr/*/googletag/*$script,xhr,domain=index.hr
+||index.hr/*/doubleclick/*$script,xhr,domain=index.hr
+||index.hr/*/adservice/*$script,xhr,domain=index.hr
+||index.hr/*/sponsor*/*$script,xhr,domain=index.hr
+||index.hr/*countUpImpression*$xhr,domain=index.hr
+||index.hr/embed/carousel/*$xhr,domain=index.hr
 
 ! ============================================================
-! THIRD-PARTY REQUEST HEURISTICS
-! Only target highly characteristic ad URL tokens; do NOT block
-! all third-party frames or all third-party scripts.
+! THIRD-PARTY URL-TOKEN HEURISTICS
+! Target characteristic ad URL tokens only. Do not block all
+! third-party scripts, frames, or subdocuments.
 ! ============================================================
 *$3p,script,xhr,domain=index.hr
-    /(?i)(^|[\\/_?=.-])(adserver|adsystem|googletag|doubleclick|prebid|adservice)([\\/_?=.-]|$)/
+/$adserver|adsystem|googletag|doubleclick|prebid|adservice/$
 
 ! ============================================================
 ! POPUP / POPUNDER DEFENSE FROM INDEX.HR
@@ -85,5 +81,5 @@ index.hr##[data-ad]
 ! No global 3p frame kill-switch.
 ! No blanket 3p script blocking.
 ! No scriptlet dependency.
-! The heuristic layer is deliberately narrower than a default-deny
-! policy to avoid breaking video, login, comments and embeds.
+! This avoids the anti-adblock behavior caused by the former
+! default-deny frame strategy.

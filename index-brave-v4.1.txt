@@ -1,14 +1,14 @@
 [Adblock Plus 3.10]
 ! Title: Index.hr - Brave Android targeted filters v4.1
-! Description: Targeted Index.hr ad blocking for Brave Android. Removes the v4 global third-party frame rule that caused repeated anti-adblock prompts; retains targeted ad infrastructure blocking and cosmetic cleanup.
+! Description: Targeted Index.hr ad blocking for Brave Android. Removes the v4 global third-party frame rule that caused repeated anti-adblock prompts; adds current Index.hr campaign and ad-slot filters while preserving normal third-party frames.
 ! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
-! Version: 2026-09-09.1
+! Version: 2026-09-09.2
 
 ! ============================================================
 ! ARCHITECTURE-LEVEL DEFENSE
 ! ============================================================
 ! IMPORTANT:
-! The v4 global third-party frame rule was intentionally removed.
+! The v4 global third-party frame rule is intentionally removed.
 ! It caused Index.hr to repeatedly detect blocked ad frames and
 ! show the "Please allow ads on this site" prompt.
 !
@@ -35,6 +35,16 @@
 ||frizzsince.com^$3p,domain=index.hr
 ||hmphpeppery.com^$3p,domain=index.hr
 
+
+! ============================================================
+! INDEX.HR FIRST-PARTY AD / CAMPAIGN ENDPOINTS
+! ============================================================
+! Current upstream uBlock reports identify this campaign embed
+! as an ad-reinsertion path. Keep this narrowly targeted.
+
+||index.hr/embed/carousel/*?countUpImpression=
+
+
 ! ============================================================
 ! GOOGLE ADVERTISING / MEASUREMENT HOSTS
 ! ============================================================
@@ -48,6 +58,7 @@
 ||pagead2.googlesyndication.com^$3p,domain=index.hr
 ||tpc.googlesyndication.com^$3p,domain=index.hr
 
+
 ! ============================================================
 ! COLOURPIKE / CREATIVE INFRASTRUCTURE
 ! ============================================================
@@ -59,6 +70,7 @@
 ||7.stg.kit.colourpike.com^$3p,domain=index.hr
 ||8.stg.kit.colourpike.com^$3p,domain=index.hr
 
+
 ! ============================================================
 ! HIDE DIRECT LINKS TO KNOWN AD INFRASTRUCTURE
 ! ============================================================
@@ -66,11 +78,12 @@
 index.hr##a[href*="stg.kit.colourpike.com"]
 index.hr##a[href*="colourpike.com"]
 
+
 ! ============================================================
 ! INDEX.HR AD-SLOT COSMETIC FILTERS
 ! ============================================================
-! These hide known advertising containers without blocking
-! arbitrary third-party page frames.
+! Known current Index.hr ad containers. Cosmetic filtering is
+! preferred here to avoid blocking arbitrary third-party frames.
 
 index.hr##.premium-sticky
 index.hr##.google-billboard-top
@@ -79,12 +92,24 @@ index.hr##.google-box
 index.hr##.js-slot-container
 index.hr##div[data-ocm-ad]
 index.hr##main > div[data-has-close-btn="true"]
+index.hr##.categories > div.cube-holder:has(> div[data-css-class="google-box center-aligner"])
+index.hr##.comments-holder > .right-part
+index.hr##main > div[data-has-close-btn=true]
+
+
+! ============================================================
+! INDEX.HR CAMPAIGN / CAROUSEL CLEANUP
+! ============================================================
+! Current upstream uBlock rule for the Index campaign carousel.
+
+index.hr##.js-carousel-campaign
+
 
 ! ============================================================
 ! OPENX / GOOGLE AD FRAME CLEANUP
 ! ============================================================
 ! Network blocking above handles the request layer.
-! These selectors remove residual iframe/container elements
+! These selectors remove residual ad iframe/container elements
 ! if they are already present in the DOM.
 
 index.hr##iframe[src*="u.openx.net"]
@@ -95,6 +120,7 @@ index.hr##[id^="google_ads_iframe_"]
 
 index.hr##div[id^="div-gpt-ad"]
 index.hr##[id^="div-gpt-ad"]
+
 
 ! ============================================================
 ! GOOGLE ADSENSE / AD CONTAINER CLEANUP
@@ -108,6 +134,7 @@ index.hr##.adsbygoogle
 index.hr##.ad-container
 index.hr##.ad-slot
 
+
 ! ============================================================
 ! IMPORTANT
 ! ============================================================
@@ -116,6 +143,6 @@ index.hr##.ad-slot
 ! No scriptlet filters.
 ! No expiry metadata.
 !
-! The goal is to block known Index.hr advertising infrastructure
-! while preserving normal third-party page functionality and
-! avoiding the repeated anti-adblock prompt observed with v4.
+! Goal: block current Index.hr ad delivery/reinsertion paths while
+! preserving ordinary third-party page functionality and avoiding
+! the repeated anti-adblock prompt observed with v4.

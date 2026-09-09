@@ -1,0 +1,89 @@
+[Adblock Plus 3.10]
+! Title: Index.hr - Brave network behavioral layer
+! Description: Second-layer network blocking for Index.hr. Uses request-type and URL-pattern heuristics in addition to known ad domains. No global third-party frame blocking.
+! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
+! Version: 2026-09-09.1
+
+! ============================================================
+! CERTAIN AD NETWORKS — FORCE BLOCK
+! important prevents later exception rules from restoring these
+! requests where supported by Brave's adblock engine.
+! ============================================================
+||u.openx.net^$3p,important,domain=index.hr
+||openx.net^$3p,important,domain=index.hr
+||doubleclick.net^$3p,important,domain=index.hr
+||googlesyndication.com^$3p,important,domain=index.hr
+||googleadservices.com^$3p,important,domain=index.hr
+||googletagservices.com^$3p,important,domain=index.hr
+||adservice.google.com^$3p,important,domain=index.hr
+||pagead2.googlesyndication.com^$3p,important,domain=index.hr
+||tpc.googlesyndication.com^$3p,important,domain=index.hr
+||stg.kit.colourpike.com^$3p,important,domain=index.hr
+||2.stg.kit.colourpike.com^$3p,important,domain=index.hr
+||7.stg.kit.colourpike.com^$3p,important,domain=index.hr
+||8.stg.kit.colourpike.com^$3p,important,domain=index.hr
+
+! ============================================================
+! AD/REDIRECT HOSTS ALREADY OBSERVED ON INDEX.HR
+! ============================================================
+||html-load.com^$script,xhr,3p,important,domain=index.hr
+||content-loader.com^$script,3p,important,domain=index.hr
+||content-load.com^$script,3p,important,domain=index.hr
+||7.stg.tuba.stiffpast.com^$3p,important,domain=index.hr
+||tuba.stiffpast.com^$3p,important,domain=index.hr
+||stiffpast.com^$3p,important,domain=index.hr
+||frizzsince.com^$3p,important,domain=index.hr
+||hmphpeppery.com^$3p,important,domain=index.hr
+||whoinasmuch.com^$3p,important,domain=index.hr
+
+! ============================================================
+! FIRST-PARTY AD DELIVERY / REINSERTION PATTERNS
+! Scoped to Index.hr and limited to network request types that
+! are commonly used for ad delivery. These are heuristic rules.
+! ============================================================
+||index.hr/*/adserver/*$script,xhr,fetch
+||index.hr/*/ads/*$script,xhr,fetch
+||index.hr/*/advert*/*$script,xhr,fetch
+||index.hr/*/prebid/*$script,xhr,fetch
+||index.hr/*/googletag/*$script,xhr,fetch
+||index.hr/*/doubleclick/*$script,xhr,fetch
+||index.hr/*/adservice/*$script,xhr,fetch
+||index.hr/*/sponsor*/*$script,xhr,fetch
+
+! Campaign/reinsertion endpoints
+||index.hr/embed/carousel/*
+||index.hr/*countUpImpression* $xhr
+
+! ============================================================
+! THIRD-PARTY REQUEST HEURISTICS
+! Only target highly characteristic ad URL tokens; do NOT block
+! all third-party frames or all third-party scripts.
+! ============================================================
+*$3p,script,xhr,domain=index.hr
+    /(?i)(^|[\\/_?=.-])(adserver|adsystem|googletag|doubleclick|prebid|adservice)([\\/_?=.-]|$)/
+
+! ============================================================
+! POPUP / POPUNDER DEFENSE FROM INDEX.HR
+! ============================================================
+||*^$popup,domain=index.hr
+
+! ============================================================
+! COSMETIC FALLBACK FOR HEURISTIC AD CONTAINERS
+! ============================================================
+index.hr##[class*="ad-slot"]
+index.hr##[class*="ad-container"]
+index.hr##[class*="advert"]
+index.hr##[id*="ad-slot"]
+index.hr##[id*="ad-container"]
+index.hr##[id*="advert"]
+index.hr##[class*="sponsored"]
+index.hr##[data-ad]
+
+! ============================================================
+! INTENTIONALLY NOT USED
+! ============================================================
+! No global 3p frame kill-switch.
+! No blanket 3p script blocking.
+! No scriptlet dependency.
+! The heuristic layer is deliberately narrower than a default-deny
+! policy to avoid breaking video, login, comments and embeds.

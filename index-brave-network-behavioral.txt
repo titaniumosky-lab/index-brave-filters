@@ -2,7 +2,7 @@
 ! Title: Index.hr - Brave network behavioral layer
 ! Description: Second-layer network blocking for Index.hr. Uses request-type and URL-pattern heuristics in addition to known ad domains. No global third-party frame blocking.
 ! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
-! Version: 2026-09-09.2
+! Version: 2026-09-09.3
 
 ! ============================================================
 ! CERTAIN AD NETWORKS — FORCE BLOCK
@@ -37,7 +37,6 @@
 ! ============================================================
 ! FIRST-PARTY AD DELIVERY / REINSERTION PATTERNS
 ! Limited to network request types commonly used to fetch ads.
-! These are heuristic rules, not a guarantee against future paths.
 ! ============================================================
 ||index.hr/*/adserver/*$script,xhr,domain=index.hr
 ||index.hr/*/ads/*$script,xhr,domain=index.hr
@@ -51,27 +50,17 @@
 ||index.hr/embed/carousel/*$xhr,domain=index.hr
 
 ! ============================================================
-! THIRD-PARTY URL-TOKEN HEURISTICS
-! Target characteristic ad URL tokens only. Do not block all
-! third-party scripts, frames, or subdocuments.
-! ============================================================
-*$3p,script,xhr,domain=index.hr
-/$adserver|adsystem|googletag|doubleclick|prebid|adservice/$
-
-! ============================================================
 ! POPUP / POPUNDER DEFENSE FROM INDEX.HR
 ! ============================================================
 ||*^$popup,domain=index.hr
 
 ! ============================================================
-! COSMETIC FALLBACK FOR HEURISTIC AD CONTAINERS
+! COSMETIC FALLBACK FOR KNOWN / GENERIC AD CONTAINERS
 ! ============================================================
 index.hr##[class*="ad-slot"]
 index.hr##[class*="ad-container"]
-index.hr##[class*="advert"]
 index.hr##[id*="ad-slot"]
 index.hr##[id*="ad-container"]
-index.hr##[id*="advert"]
 index.hr##[class*="sponsored"]
 index.hr##[data-ad]
 

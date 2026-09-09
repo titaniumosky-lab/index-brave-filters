@@ -1,8 +1,8 @@
 [Adblock Plus 3.10]
 ! Title: Index.hr - Brave Android targeted filters v4.1
-! Description: Targeted Index.hr ad blocking for Brave Android. Removes the v4 global third-party frame rule that caused repeated anti-adblock prompts; adds current Index.hr campaign and ad-slot filters while preserving normal third-party frames.
+! Description: Targeted Index.hr ad blocking for Brave Android. Removes the v4 global third-party frame rule that caused repeated anti-adblock prompts; blocks current Index.hr campaign, ad-slot, and redirect infrastructure while preserving normal third-party frames.
 ! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
-! Version: 2026-09-09.2
+! Version: 2026-09-09.3
 
 ! ============================================================
 ! ARCHITECTURE-LEVEL DEFENSE
@@ -35,6 +35,8 @@
 ||frizzsince.com^$3p,domain=index.hr
 ||hmphpeppery.com^$3p,domain=index.hr
 
+! Newly observed Index.hr redirect/ad infrastructure.
+||whoinasmuch.com^$3p,domain=index.hr
 
 ! ============================================================
 ! INDEX.HR FIRST-PARTY AD / CAMPAIGN ENDPOINTS
@@ -43,7 +45,6 @@
 ! as an ad-reinsertion path. Keep this narrowly targeted.
 
 ||index.hr/embed/carousel/*?countUpImpression=
-
 
 ! ============================================================
 ! GOOGLE ADVERTISING / MEASUREMENT HOSTS
@@ -58,7 +59,6 @@
 ||pagead2.googlesyndication.com^$3p,domain=index.hr
 ||tpc.googlesyndication.com^$3p,domain=index.hr
 
-
 ! ============================================================
 ! COLOURPIKE / CREATIVE INFRASTRUCTURE
 ! ============================================================
@@ -70,14 +70,12 @@
 ||7.stg.kit.colourpike.com^$3p,domain=index.hr
 ||8.stg.kit.colourpike.com^$3p,domain=index.hr
 
-
 ! ============================================================
 ! HIDE DIRECT LINKS TO KNOWN AD INFRASTRUCTURE
 ! ============================================================
 
 index.hr##a[href*="stg.kit.colourpike.com"]
 index.hr##a[href*="colourpike.com"]
-
 
 ! ============================================================
 ! INDEX.HR AD-SLOT COSMETIC FILTERS
@@ -94,8 +92,6 @@ index.hr##div[data-ocm-ad]
 index.hr##main > div[data-has-close-btn="true"]
 index.hr##.categories > div.cube-holder:has(> div[data-css-class="google-box center-aligner"])
 index.hr##.comments-holder > .right-part
-index.hr##main > div[data-has-close-btn=true]
-
 
 ! ============================================================
 ! INDEX.HR CAMPAIGN / CAROUSEL CLEANUP
@@ -103,7 +99,6 @@ index.hr##main > div[data-has-close-btn=true]
 ! Current upstream uBlock rule for the Index campaign carousel.
 
 index.hr##.js-carousel-campaign
-
 
 ! ============================================================
 ! OPENX / GOOGLE AD FRAME CLEANUP
@@ -121,7 +116,6 @@ index.hr##[id^="google_ads_iframe_"]
 index.hr##div[id^="div-gpt-ad"]
 index.hr##[id^="div-gpt-ad"]
 
-
 ! ============================================================
 ! GOOGLE ADSENSE / AD CONTAINER CLEANUP
 ! ============================================================
@@ -133,7 +127,6 @@ index.hr##[data-google-query-id]
 index.hr##.adsbygoogle
 index.hr##.ad-container
 index.hr##.ad-slot
-
 
 ! ============================================================
 ! IMPORTANT

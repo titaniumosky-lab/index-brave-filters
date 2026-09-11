@@ -1,0 +1,100 @@
+[Adblock Plus 3.10]
+! Title: Index.hr - Brave Android anti-adshield v4.4 RMNT test
+! Description: Uses the proven uBO-style html-load/error-report neutralization pattern. No alert-buster, no global 3p kill-switch.
+! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
+! Version: 2026-09-11.3
+
+! ============================================================
+! PRIMARY ANTI-ADBLOCK FIX — REMOVE LOADER / RECOVERY SCRIPTS
+! ============================================================
+! This follows the uBO pattern reported for Index.hr and the
+! current html-load/error-report family.
+index.hr##+js(rmnt, script, html-load.com)
+index.hr##+js(rmnt, script, error-report.com)
+
+! Prevent the external loader from completing as a real script.
+||html-load.com^$script,xhr,domain=index.hr
+
+! Neutralize recurring recovery callbacks.
+index.hr##+js(nostif, error-report.com)
+
+! Block the recovery/report surface itself.
+||error-report.com^$3p,important,domain=index.hr
+
+! ============================================================
+! KNOWN AD / REDIRECT INFRASTRUCTURE
+! ============================================================
+||u.openx.net^$3p,important,domain=index.hr
+||openx.net^$3p,important,domain=index.hr
+||doubleclick.net^$3p,important,domain=index.hr
+||googlesyndication.com^$3p,important,domain=index.hr
+||googleadservices.com^$3p,important,domain=index.hr
+||googletagservices.com^$3p,important,domain=index.hr
+||adservice.google.com^$3p,important,domain=index.hr
+||pagead2.googlesyndication.com^$3p,important,domain=index.hr
+||tpc.googlesyndication.com^$3p,important,domain=index.hr
+||content-loader.com^$script,3p,important,domain=index.hr
+||content-load.com^$script,3p,important,domain=index.hr
+||7.stg.tuba.stiffpast.com^$3p,important,domain=index.hr
+||tuba.stiffpast.com^$3p,important,domain=index.hr
+||stiffpast.com^$3p,important,domain=index.hr
+||frizzsince.com^$3p,important,domain=index.hr
+||hmphpeppery.com^$3p,important,domain=index.hr
+||whoinasmuch.com^$3p,important,domain=index.hr
+||stg.kit.colourpike.com^$3p,important,domain=index.hr
+||2.stg.kit.colourpike.com^$3p,important,domain=index.hr
+||7.stg.kit.colourpike.com^$3p,important,domain=index.hr
+||8.stg.kit.colourpike.com^$3p,important,domain=index.hr
+
+! ============================================================
+! FIRST-PARTY AD DELIVERY / REINSERTION
+! ============================================================
+||index.hr/*/adserver/*$script,xhr,domain=index.hr
+||index.hr/*/ads/*$script,xhr,domain=index.hr
+||index.hr/*/advert*/*$script,xhr,domain=index.hr
+||index.hr/*/prebid/*$script,xhr,domain=index.hr
+||index.hr/*/googletag/*$script,xhr,domain=index.hr
+||index.hr/*/doubleclick/*$script,xhr,domain=index.hr
+||index.hr/*/adservice/*$script,xhr,domain=index.hr
+||index.hr/*/sponsor*/*$script,xhr,domain=index.hr
+||index.hr/*countUpImpression*$xhr,domain=index.hr
+||index.hr/embed/carousel/*$xhr,domain=index.hr
+
+! ============================================================
+! COSMETIC FALLBACKS
+! ============================================================
+index.hr##[class*="ad-slot"]
+index.hr##[class*="ad-container"]
+index.hr##[id*="ad-slot"]
+index.hr##[id*="ad-container"]
+index.hr##[class*="sponsored"]
+index.hr##[data-ad]
+index.hr##.premium-sticky
+index.hr##.google-billboard-top
+index.hr##.google-billboard
+index.hr##.google-box
+index.hr##.js-slot-container
+index.hr##div[data-ocm-ad]
+index.hr##main > div[data-has-close-btn="true"]
+index.hr##.comments-holder > .right-part
+index.hr##.js-carousel-campaign
+index.hr##iframe[src*="u.openx.net"]
+index.hr##iframe[src*="openx.net"]
+index.hr##iframe[src*="doubleclick.net"]
+index.hr##iframe[src*="googlesyndication.com"]
+index.hr##iframe[id^="google_ads_iframe_"]
+index.hr##[id^="google_ads_iframe_"]
+index.hr##div[id^="div-gpt-ad"]
+index.hr##[id^="div-gpt-ad"]
+index.hr##ins.adsbygoogle
+index.hr##[data-ad-slot]
+index.hr##[data-ad-client]
+index.hr##[data-google-query-id]
+index.hr##.adsbygoogle
+index.hr##.ad-container
+index.hr##.ad-slot
+index.hr##a[href*="stg.kit.colourpike.com"]
+index.hr##a[href*="colourpike.com"]
+
+! No global third-party frame/script kill-switch.
+! No popup rule.

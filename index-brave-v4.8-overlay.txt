@@ -1,0 +1,40 @@
+[Adblock Plus 3.10]
+! Title: Index.hr - Brave Android overlay defense v4.8
+! Description: Targeted overlay defense using the uBO overlay-buster resource plus the known Index.hr anti-AdShield patterns. Intended for Brave Android custom filter loading.
+! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
+! Version: 2026-09-11.1
+
+! ============================================================
+! PRIMARY: BLOCK THE DELAYED ANTI-ADBLOCK OVERLAY
+! ============================================================
+index.hr##+js(overlay-buster)
+
+! ============================================================
+! KNOWN INDEX.HR ANTI-ADSHIELD SCRIPT PATTERNS
+! ============================================================
+index.hr##+js(ra, onerror, script[id][onerror], asap stay)
+index.hr##+js(rmnt, script, \\,window])
+index.hr##+js(rmnt, script, html-load.com)
+index.hr##+js(rmnt, script, error-report.com)
+index.hr##+js(nostif, error-report.com)
+index.hr##+js(nostif, adShieldError)
+
+! ============================================================
+! NETWORK FALLBACKS
+! ============================================================
+||html-load.com^$script,xhr,important,domain=index.hr
+||error-report.com^$3p,important,domain=index.hr
+||content-loader.com^$script,3p,important,domain=index.hr
+||content-load.com^$script,3p,important,domain=index.hr
+
+! ============================================================
+! KNOWN REDIRECT INFRASTRUCTURE
+! ============================================================
+||stiffpast.com^$3p,important,domain=index.hr
+||frizzsince.com^$3p,important,domain=index.hr
+||hmphpeppery.com^$3p,important,domain=index.hr
+||whoinasmuch.com^$3p,important,domain=index.hr
+||stg.kit.colourpike.com^$3p,important,domain=index.hr
+||2.stg.kit.colourpike.com^$3p,important,domain=index.hr
+||7.stg.kit.colourpike.com^$3p,important,domain=index.hr
+||8.stg.kit.colourpike.com^$3p,important,domain=index.hr

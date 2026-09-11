@@ -1,6 +1,6 @@
 [Adblock Plus 3.10]
 ! Title: Index.hr - Brave Android FINAL anti-AdShield
-! Version: 2026-09-11.3
+! Version: 2026-09-11.4
 
 ! Stop known anti-AdShield inline code without blocking the loader request itself.
 index.hr##+js(acs, Element.prototype.setAttribute, /error-report|adShieldError|html-load.com/)
@@ -24,15 +24,24 @@ index.hr##[data-ad]
 index.hr##.adsbygoogle
 index.hr##[id^="google_ads_iframe_"]
 index.hr##div[id^="div-gpt-ad"]
+index.hr##.google-billboard-top
+index.hr##[class*="google-box"]
 
 ! Durable block for the rotating assuredwhoa.com hosts used in Index.hr sessions.
-! Covers 0.stg.tool..., 1.stg.tool..., 2.stg.tool... and future numbered hosts,
-! without needing to update the filter when the leading number changes.
+! Covers numbered subdomains and future numbered hosts without URL updates.
 ||assuredwhoa.com^$3p,domain=index.hr
 
-! Block the currently observed OpenX ad iframe on Index.hr.
-||u.openx.net^$subdocument,domain=index.hr
-index.hr##iframe[src*="u.openx.net"]
+! Block the full OpenX ad family used by Index.hr, including regional u.openx hosts.
+||openx.net^$3p,domain=index.hr
+||openx.net^$subdocument,domain=index.hr
+index.hr##iframe[src*="openx.net"]
+
+! Block common Google ad-delivery endpoints on Index.hr.
+||googleads.g.doubleclick.net^$3p,domain=index.hr
+||securepubads.g.doubleclick.net^$3p,domain=index.hr
+||pagead2.googlesyndication.com^$3p,domain=index.hr
+||googlesyndication.com^$3p,domain=index.hr
+||adservice.google.com^$3p,domain=index.hr
 
 ! Deliberately omitted: direct network blocking of html-load.com,
 ! error-report.com, first-party ad endpoints, and broad 3p blocking.

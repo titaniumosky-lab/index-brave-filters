@@ -1,8 +1,8 @@
 [Adblock Plus 3.10]
 ! Title: Index.hr - Brave network behavioral layer
-! Description: Second-layer network blocking for Index.hr. Uses request-type and URL-pattern heuristics in addition to known ad domains. No global third-party frame blocking.
+! Description: Structural network blocking for Index.hr. Blocks known ad infrastructure plus hostile third-party navigations/redirectors carrying an Index.hr destination marker, without blanket third-party blocking.
 ! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
-! Version: 2026-09-09.3
+! Version: 2026-09-11.1
 
 ! ============================================================
 ! CERTAIN AD NETWORKS — FORCE BLOCK
@@ -35,6 +35,18 @@
 ||whoinasmuch.com^$3p,important,domain=index.hr
 
 ! ============================================================
+! STRUCTURAL REDIRECTOR DEFENSE — DOMAIN AGNOSTIC
+! ============================================================
+! Blocks third-party document/navigations from Index.hr when the
+! destination URL itself contains an embedded Index.hr host marker.
+! This catches rotating ad/redirect domains without maintaining a
+! hostname list for each new campaign domain.
+/^https?:\/\/[^/]+\/[^\r\n]*\/www\.index\.hr(?:[/?]|$)/$document,3p,important,domain=index.hr
+
+! Also stop subframe versions of the same redirect pattern.
+/^https?:\/\/[^/]+\/[^\r\n]*\/www\.index\.hr(?:[/?]|$)/$subdocument,3p,important,domain=index.hr
+
+! ============================================================
 ! FIRST-PARTY AD DELIVERY / REINSERTION PATTERNS
 ! Limited to network request types commonly used to fetch ads.
 ! ============================================================
@@ -48,11 +60,6 @@
 ||index.hr/*/sponsor*/*$script,xhr,domain=index.hr
 ||index.hr/*countUpImpression*$xhr,domain=index.hr
 ||index.hr/embed/carousel/*$xhr,domain=index.hr
-
-! ============================================================
-! POPUP / POPUNDER DEFENSE FROM INDEX.HR
-! ============================================================
-||*^$popup,domain=index.hr
 
 ! ============================================================
 ! COSMETIC FALLBACK FOR KNOWN / GENERIC AD CONTAINERS
@@ -69,6 +76,7 @@ index.hr##[data-ad]
 ! ============================================================
 ! No global 3p frame kill-switch.
 ! No blanket 3p script blocking.
+! No $popup dependency (Brave adblock-rust does not reliably support it).
 ! No scriptlet dependency.
-! This avoids the anti-adblock behavior caused by the former
-! default-deny frame strategy.
+! The structural redirect rules above are intentionally scoped to
+! navigations/subframes originating from Index.hr.

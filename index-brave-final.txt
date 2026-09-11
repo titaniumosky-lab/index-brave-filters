@@ -1,6 +1,6 @@
 [Adblock Plus 3.10]
 ! Title: Index.hr - Brave Android FINAL anti-AdShield
-! Version: 2026-09-11.2
+! Version: 2026-09-11.3
 
 ! Stop known anti-AdShield inline code without blocking the loader request itself.
 index.hr##+js(acs, Element.prototype.setAttribute, /error-report|adShieldError|html-load.com/)
@@ -24,6 +24,15 @@ index.hr##[data-ad]
 index.hr##.adsbygoogle
 index.hr##[id^="google_ads_iframe_"]
 index.hr##div[id^="div-gpt-ad"]
+
+! Durable block for the rotating assuredwhoa.com hosts used in Index.hr sessions.
+! Covers 0.stg.tool..., 1.stg.tool..., 2.stg.tool... and future numbered hosts,
+! without needing to update the filter when the leading number changes.
+||assuredwhoa.com^$3p,domain=index.hr
+
+! Block the currently observed OpenX ad iframe on Index.hr.
+||u.openx.net^$subdocument,domain=index.hr
+index.hr##iframe[src*="u.openx.net"]
 
 ! Deliberately omitted: direct network blocking of html-load.com,
 ! error-report.com, first-party ad endpoints, and broad 3p blocking.

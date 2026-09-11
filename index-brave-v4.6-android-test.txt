@@ -1,0 +1,63 @@
+[Adblock Plus 3.10]
+! Title: Index.hr - Brave Android anti-adshield v4.6 targeted test
+! Description: Android-oriented test using current uBO Index.hr anti-adblock patterns that do not rely on trusted-replace-argument or HTML filtering.
+! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
+! Version: 2026-09-11.1
+
+! ============================================================
+! CURRENT uBO INDEX.HR SCRIPT PATTERNS
+! ============================================================
+! Current uBO has a site-specific rule removing the onerror
+! attribute from script nodes, and a specific script-text pattern
+! containing ',window]'.
+index.hr##+js(ra, onerror, script[id][onerror], asap stay)
+index.hr##+js(rmnt, script, \,window])
+
+! Current uBO also removes these known loader/recovery payloads.
+index.hr##+js(rmnt, script, html-load.com)
+index.hr##+js(rmnt, script, error-report.com)
+index.hr##+js(nostif, error-report.com)
+
+! ============================================================
+! NETWORK FALLBACKS
+! ============================================================
+||html-load.com^$script,xhr,important,domain=index.hr
+||content-loader.com^$script,3p,important,domain=index.hr
+||content-load.com^$script,3p,important,domain=index.hr
+||error-report.com^$3p,important,domain=index.hr
+
+! Known ad/redirect infrastructure already observed on Index.hr.
+||u.openx.net^$3p,important,domain=index.hr
+||openx.net^$3p,important,domain=index.hr
+||doubleclick.net^$3p,important,domain=index.hr
+||googlesyndication.com^$3p,important,domain=index.hr
+||googleadservices.com^$3p,important,domain=index.hr
+||googletagservices.com^$3p,important,domain=index.hr
+||adservice.google.com^$3p,important,domain=index.hr
+||pagead2.googlesyndication.com^$3p,important,domain=index.hr
+||tpc.googlesyndication.com^$3p,important,domain=index.hr
+||7.stg.tuba.stiffpast.com^$3p,important,domain=index.hr
+||tuba.stiffpast.com^$3p,important,domain=index.hr
+||stiffpast.com^$3p,important,domain=index.hr
+||frizzsince.com^$3p,important,domain=index.hr
+||hmphpeppery.com^$3p,important,domain=index.hr
+||whoinasmuch.com^$3p,important,domain=index.hr
+||stg.kit.colourpike.com^$3p,important,domain=index.hr
+||2.stg.kit.colourpike.com^$3p,important,domain=index.hr
+||7.stg.kit.colourpike.com^$3p,important,domain=index.hr
+||8.stg.kit.colourpike.com^$3p,important,domain=index.hr
+
+! First-party ad delivery / reinsertion patterns.
+||index.hr/*/adserver/*$script,xhr,domain=index.hr
+||index.hr/*/ads/*$script,xhr,domain=index.hr
+||index.hr/*/advert*/*$script,xhr,domain=index.hr
+||index.hr/*/prebid/*$script,xhr,domain=index.hr
+||index.hr/*/googletag/*$script,xhr,domain=index.hr
+||index.hr/*/doubleclick/*$script,xhr,domain=index.hr
+||index.hr/*/adservice/*$script,xhr,domain=index.hr
+||index.hr/*/sponsor*/*$script,xhr,domain=index.hr
+||index.hr/*countUpImpression*$xhr,domain=index.hr
+||index.hr/embed/carousel/*$xhr,domain=index.hr
+
+! No trusted scriptlet and no HTML-filter dependency in this test.
+! No global 3p script/frame kill-switch.

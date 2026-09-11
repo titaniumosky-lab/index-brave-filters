@@ -1,0 +1,29 @@
+[Adblock Plus 3.10]
+! Title: Index.hr - Brave Android FINAL anti-AdShield
+! Version: 2026-09-11.2
+
+! Stop known anti-AdShield inline code without blocking the loader request itself.
+index.hr##+js(acs, Element.prototype.setAttribute, /error-report|adShieldError|html-load.com/)
+index.hr##+js(acs, Node.prototype.insertBefore, html-load.com)
+index.hr##+js(acs, Node.prototype.appendChild, html-load.com)
+
+! Current uBO non-trusted Index.hr patterns.
+index.hr##+js(ra, onerror, script[id][onerror], asap stay)
+index.hr##+js(rmnt, script, \,window])
+index.hr##+js(rmnt, script, html-load.com)
+index.hr##+js(rmnt, script, error-report.com)
+index.hr##+js(nostif, error-report.com)
+index.hr##+js(nostif, adShieldError)
+
+! Conservative cosmetic ad cleanup.
+index.hr##[class*="ad-slot"]
+index.hr##[class*="ad-container"]
+index.hr##[id*="ad-slot"]
+index.hr##[id*="ad-container"]
+index.hr##[data-ad]
+index.hr##.adsbygoogle
+index.hr##[id^="google_ads_iframe_"]
+index.hr##div[id^="div-gpt-ad"]
+
+! Deliberately omitted: direct network blocking of html-load.com,
+! error-report.com, first-party ad endpoints, and broad 3p blocking.

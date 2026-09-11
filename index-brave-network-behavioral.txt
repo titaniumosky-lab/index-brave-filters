@@ -2,7 +2,7 @@
 ! Title: Index.hr - Brave network behavioral layer
 ! Description: Structural network blocking for Index.hr. Blocks known ad infrastructure plus hostile third-party navigations/redirectors and anti-adblock recovery surfaces, without blanket third-party blocking.
 ! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
-! Version: 2026-09-11.2
+! Version: 2026-09-11.3
 
 ! ============================================================
 ! CERTAIN AD NETWORKS — FORCE BLOCK
@@ -37,12 +37,12 @@
 ! ============================================================
 ! ANTI-ADBLOCK RECOVERY — ERROR-REPORT.COM
 ! ============================================================
-! Index.hr can surface the generic error-report.com recovery page
-! when ad-recovery/loader logic detects that an ad dependency was
-! blocked. Suppress the recovery injector and its third-party frame.
+! uBlock's current Index.hr handling specifically references
+! error-report.com as an injected anti-adblock recovery surface.
+! Brave gets a network-level block so this does not depend on
+! scriptlet support.
+||error-report.com^$3p,important,domain=index.hr
 index.hr##+js(rmnt, script, error-report.com)
-||report.error-report.com/modal^$subdocument,3p,important,domain=index.hr
-||error-report.com^$subdocument,3p,important,domain=index.hr
 
 ! ============================================================
 ! STRUCTURAL REDIRECTOR DEFENSE — DOMAIN AGNOSTIC
@@ -87,7 +87,5 @@ index.hr##[data-ad]
 ! No global 3p frame kill-switch.
 ! No blanket 3p script blocking.
 ! No $popup dependency (Brave adblock-rust does not reliably support it).
-! No global scriptlet dependency; the one site-specific rmnt rule above
-! targets only the known error-report.com recovery injector on Index.hr.
-! The structural redirect rules above are intentionally scoped to
-! navigations/subframes originating from Index.hr.
+! No blanket third-party blocking. All hostile-domain rules above
+! are scoped to Index.hr as the initiator.

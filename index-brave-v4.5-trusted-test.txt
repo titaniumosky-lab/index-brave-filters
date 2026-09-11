@@ -1,0 +1,97 @@
+[Adblock Plus 3.10]
+! Title: Index.hr - Brave Android anti-adshield v4.5 trusted test
+! Description: Targeted test based on the current uBO Index.hr anti-AdShield fix. Keeps the existing network/rmnt rules and adds the specific JavaScript argument replacement plus the observed window-script pattern.
+! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
+! Version: 2026-09-11.1
+
+! ============================================================
+! TARGETED uBO-STYLE JAVASCRIPT FIX
+! ============================================================
+! Current uBO Index.hr rule: neutralize arguments passed through
+! Element.prototype.setAttribute when the argument contains the
+! anti-AdShield recovery/error-report patterns.
+index.hr##+js(trusted-replace-argument, Element.prototype.setAttribute, 1, , condition, '/error-report|new Promise|;await new|:\[?window|&&window,|void 0\]|location\.href|void 0\|\|window|,window,|void 0,window|,window\]|\)\.join\(String\.fromCharCode|adShieldError/')
+
+! Observed current uBO rmnt pattern for Index.hr.
+index.hr##+js(rmnt, script, \,window])
+
+! Existing known loader/recovery neutralization.
+index.hr##+js(rmnt, script, html-load.com)
+index.hr##+js(rmnt, script, error-report.com)
+index.hr##+js(nostif, error-report.com)
+
+! Network fallback for the recovery/loader surface.
+||html-load.com^$script,xhr,domain=index.hr
+||content-loader.com^$script,3p,important,domain=index.hr
+||content-load.com^$script,3p,important,domain=index.hr
+||error-report.com^$3p,important,domain=index.hr
+
+! Known ad infrastructure used on Index.hr.
+||u.openx.net^$3p,important,domain=index.hr
+||openx.net^$3p,important,domain=index.hr
+||doubleclick.net^$3p,important,domain=index.hr
+||googlesyndication.com^$3p,important,domain=index.hr
+||googleadservices.com^$3p,important,domain=index.hr
+||googletagservices.com^$3p,important,domain=index.hr
+||adservice.google.com^$3p,important,domain=index.hr
+||pagead2.googlesyndication.com^$3p,important,domain=index.hr
+||tpc.googlesyndication.com^$3p,important,domain=index.hr
+
+! Observed redirect / staging infrastructure.
+||7.stg.tuba.stiffpast.com^$3p,important,domain=index.hr
+||tuba.stiffpast.com^$3p,important,domain=index.hr
+||stiffpast.com^$3p,important,domain=index.hr
+||frizzsince.com^$3p,important,domain=index.hr
+||hmphpeppery.com^$3p,important,domain=index.hr
+||whoinasmuch.com^$3p,important,domain=index.hr
+||stg.kit.colourpike.com^$3p,important,domain=index.hr
+||2.stg.kit.colourpike.com^$3p,important,domain=index.hr
+||7.stg.kit.colourpike.com^$3p,important,domain=index.hr
+||8.stg.kit.colourpike.com^$3p,important,domain=index.hr
+
+! First-party ad delivery / reinsertion fallback.
+||index.hr/*/adserver/*$script,xhr,domain=index.hr
+||index.hr/*/ads/*$script,xhr,domain=index.hr
+||index.hr/*/advert*/*$script,xhr,domain=index.hr
+||index.hr/*/prebid/*$script,xhr,domain=index.hr
+||index.hr/*/googletag/*$script,xhr,domain=index.hr
+||index.hr/*/doubleclick/*$script,xhr,domain=index.hr
+||index.hr/*/adservice/*$script,xhr,domain=index.hr
+||index.hr/*/sponsor*/*$script,xhr,domain=index.hr
+||index.hr/*countUpImpression*$xhr,domain=index.hr
+||index.hr/embed/carousel/*$xhr,domain=index.hr
+
+! Cosmetic fallback.
+index.hr##[class*="ad-slot"]
+index.hr##[class*="ad-container"]
+index.hr##[id*="ad-slot"]
+index.hr##[id*="ad-container"]
+index.hr##[class*="sponsored"]
+index.hr##[data-ad]
+index.hr##.premium-sticky
+index.hr##.google-billboard-top
+index.hr##.google-billboard
+index.hr##.google-box
+index.hr##.js-slot-container
+index.hr##div[data-ocm-ad]
+index.hr##main > div[data-has-close-btn="true"]
+index.hr##.comments-holder > .right-part
+index.hr##.js-carousel-campaign
+index.hr##iframe[src*="u.openx.net"]
+index.hr##iframe[src*="openx.net"]
+index.hr##iframe[src*="doubleclick.net"]
+index.hr##iframe[src*="googlesyndication.com"]
+index.hr##iframe[id^="google_ads_iframe_"]
+index.hr##[id^="google_ads_iframe_"]
+index.hr##div[id^="div-gpt-ad"]
+index.hr##[id^="div-gpt-ad"]
+index.hr##ins.adsbygoogle
+index.hr##[data-ad-slot]
+index.hr##[data-ad-client]
+index.hr##[data-google-query-id]
+index.hr##.adsbygoogle
+index.hr##.ad-container
+index.hr##.ad-slot
+
+! No global third-party kill-switch.
+! No generic popup rule.

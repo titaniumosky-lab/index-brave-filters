@@ -1,0 +1,54 @@
+[Adblock Plus 3.10]
+! Title: Index.hr - Brave Android anti-adshield v4.7 timer test
+! Description: Narrow Android test targeting delayed anti-adblock recovery callbacks. Based on the currently documented uBO Index.hr pattern and Brave's supported scriptlet syntax.
+! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
+! Version: 2026-09-11.1
+
+! ============================================================
+! DELAYED ANTI-ADBLOCK CALLBACK
+! ============================================================
+! The overlay appears after a delay. Defuse setTimeout callbacks
+! whose function text contains the known anti-adblock markers.
+index.hr##+js(nostif, /html-load\.com|error-report\.com|adShieldError|allow ads|adblock|anti.?adblock/i)
+
+! ============================================================
+! CURRENT INDEX.HR uBO NON-TRUSTED PATTERNS
+! ============================================================
+index.hr##+js(ra, onerror, script[id][onerror], asap stay)
+index.hr##+js(rmnt, script, \,window])
+index.hr##+js(rmnt, script, html-load.com)
+index.hr##+js(rmnt, script, error-report.com)
+index.hr##+js(nostif, error-report.com)
+
+! ============================================================
+! NETWORK FALLBACKS
+! ============================================================
+||html-load.com^$script,xhr,important,domain=index.hr
+||content-loader.com^$script,3p,important,domain=index.hr
+||content-load.com^$script,3p,important,domain=index.hr
+||error-report.com^$3p,important,domain=index.hr
+
+! Known redirect infrastructure.
+||7.stg.tuba.stiffpast.com^$3p,important,domain=index.hr
+||tuba.stiffpast.com^$3p,important,domain=index.hr
+||stiffpast.com^$3p,important,domain=index.hr
+||frizzsince.com^$3p,important,domain=index.hr
+||hmphpeppery.com^$3p,important,domain=index.hr
+||whoinasmuch.com^$3p,important,domain=index.hr
+||stg.kit.colourpike.com^$3p,important,domain=index.hr
+||2.stg.kit.colourpike.com^$3p,important,domain=index.hr
+||7.stg.kit.colourpike.com^$3p,important,domain=index.hr
+||8.stg.kit.colourpike.com^$3p,important,domain=index.hr
+
+! Known ad infrastructure.
+||u.openx.net^$3p,important,domain=index.hr
+||openx.net^$3p,important,domain=index.hr
+||doubleclick.net^$3p,important,domain=index.hr
+||googlesyndication.com^$3p,important,domain=index.hr
+||googleadservices.com^$3p,important,domain=index.hr
+||googletagservices.com^$3p,important,domain=index.hr
+||adservice.google.com^$3p,important,domain=index.hr
+||pagead2.googlesyndication.com^$3p,important,domain=index.hr
+||tpc.googlesyndication.com^$3p,important,domain=index.hr
+
+! No generic popup/overlay killer; no blanket third-party blocking.

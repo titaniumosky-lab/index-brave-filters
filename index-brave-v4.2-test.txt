@@ -1,0 +1,103 @@
+[Adblock Plus 3.10]
+! Title: Index.hr - Brave Android targeted anti-adshield test v4.2
+! Description: Targeted Index.hr anti-adblock recovery test. Replaces html-load hard failure with noopjs and defuses error-report.com retry timer. No global 3p blocking.
+! Homepage: https://github.com/titaniumosky-lab/index-brave-filters
+! Version: 2026-09-11.1
+
+! ============================================================
+! ANTI-ADBLOCK TRIGGER — HTML-LOAD
+! ============================================================
+! Prevent the blocked html-load.com script from producing a hard
+! network failure signal that can trigger recovery UI.
+||html-load.com^$script,redirect=noopjs,domain=index.hr
+
+! ============================================================
+! ANTI-ADBLOCK RECOVERY — ERROR-REPORT TIMER
+! ============================================================
+! Defuse periodic retry/recovery timers referencing error-report.com.
+index.hr##+js(nostif, error-report.com)
+
+! Network backstop for the recovery surface itself.
+||error-report.com^$3p,important,domain=index.hr
+
+! ============================================================
+! KNOWN AD / REDIRECT INFRASTRUCTURE
+! ============================================================
+||u.openx.net^$3p,important,domain=index.hr
+||openx.net^$3p,important,domain=index.hr
+||doubleclick.net^$3p,important,domain=index.hr
+||googlesyndication.com^$3p,important,domain=index.hr
+||googleadservices.com^$3p,important,domain=index.hr
+||googletagservices.com^$3p,important,domain=index.hr
+||adservice.google.com^$3p,important,domain=index.hr
+||pagead2.googlesyndication.com^$3p,important,domain=index.hr
+||tpc.googlesyndication.com^$3p,important,domain=index.hr
+||content-loader.com^$script,3p,important,domain=index.hr
+||content-load.com^$script,3p,important,domain=index.hr
+||7.stg.tuba.stiffpast.com^$3p,important,domain=index.hr
+||tuba.stiffpast.com^$3p,important,domain=index.hr
+||stiffpast.com^$3p,important,domain=index.hr
+||frizzsince.com^$3p,important,domain=index.hr
+||hmphpeppery.com^$3p,important,domain=index.hr
+||whoinasmuch.com^$3p,important,domain=index.hr
+||stg.kit.colourpike.com^$3p,important,domain=index.hr
+||2.stg.kit.colourpike.com^$3p,important,domain=index.hr
+||7.stg.kit.colourpike.com^$3p,important,domain=index.hr
+||8.stg.kit.colourpike.com^$3p,important,domain=index.hr
+
+! ============================================================
+! FIRST-PARTY AD DELIVERY / REINSERTION
+! ============================================================
+||index.hr/*/adserver/*$script,xhr,domain=index.hr
+||index.hr/*/ads/*$script,xhr,domain=index.hr
+||index.hr/*/advert*/*$script,xhr,domain=index.hr
+||index.hr/*/prebid/*$script,xhr,domain=index.hr
+||index.hr/*/googletag/*$script,xhr,domain=index.hr
+||index.hr/*/doubleclick/*$script,xhr,domain=index.hr
+||index.hr/*/adservice/*$script,xhr,domain=index.hr
+||index.hr/*/sponsor*/*$script,xhr,domain=index.hr
+||index.hr/*countUpImpression*$xhr,domain=index.hr
+||index.hr/embed/carousel/*$xhr,domain=index.hr
+
+! ============================================================
+! COSMETIC FALLBACKS
+! ============================================================
+index.hr##[class*="ad-slot"]
+index.hr##[class*="ad-container"]
+index.hr##[id*="ad-slot"]
+index.hr##[id*="ad-container"]
+index.hr##[class*="sponsored"]
+index.hr##[data-ad]
+index.hr##.premium-sticky
+index.hr##.google-billboard-top
+index.hr##.google-billboard
+index.hr##.google-box
+index.hr##.js-slot-container
+index.hr##div[data-ocm-ad]
+index.hr##main > div[data-has-close-btn="true"]
+index.hr##.categories > div.cube-holder:has(> div[data-css-class="google-box center-aligner"])
+index.hr##.comments-holder > .right-part
+index.hr##.js-carousel-campaign
+index.hr##iframe[src*="u.openx.net"]
+index.hr##iframe[src*="openx.net"]
+index.hr##iframe[src*="doubleclick.net"]
+index.hr##iframe[src*="googlesyndication.com"]
+index.hr##iframe[id^="google_ads_iframe_"]
+index.hr##[id^="google_ads_iframe_"]
+index.hr##div[id^="div-gpt-ad"]
+index.hr##[id^="div-gpt-ad"]
+index.hr##ins.adsbygoogle
+index.hr##[data-ad-slot]
+index.hr##[data-ad-client]
+index.hr##[data-google-query-id]
+index.hr##.adsbygoogle
+index.hr##.ad-container
+index.hr##.ad-slot
+index.hr##a[href*="stg.kit.colourpike.com"]
+index.hr##a[href*="colourpike.com"]
+
+! ============================================================
+! IMPORTANT: NO GLOBAL 3P FRAME / SCRIPT KILL-SWITCH
+! ============================================================
+! This test intentionally does not use a blanket third-party
+! frame/script block and does not use $popup.

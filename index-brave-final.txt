@@ -1,6 +1,6 @@
 [Adblock Plus 3.10]
 ! Title: Index.hr - Brave Android FINAL anti-AdShield
-! Version: 2026-09-13.1-FINAL
+! Version: 2026-09-15.2-FINAL
 
 ! Stop known anti-AdShield inline code without blocking the loader request itself.
 index.hr##+js(acs, Element.prototype.setAttribute, /error-report|adShieldError|html-load.com/)
@@ -31,6 +31,15 @@ index.hr##[class*="google-box"]
 ! Covers numbered subdomains and future numbered hosts without URL updates.
 ||assuredwhoa.com^$3p,domain=index.hr
 
+! Durable block for the SinceAware/lyre AdChoices delivery host observed on Index.hr.
+! Base-domain match covers rotating subdomains such as 7.stg.lyre.sinceaware.com.
+||sinceaware.com^$3p,domain=index.hr
+
+! Remove the ad/AdChoices iframe itself and collapse its direct ad wrapper.
+! The second rule prevents the large grey empty slot from surviving a blocked frame.
+index.hr##iframe[src*="sinceaware.com"]:remove()
+index.hr#?#div:has(> iframe[src*="sinceaware.com"]):remove()
+
 ! Block the full OpenX ad family used by Index.hr, including regional u.openx hosts.
 ||openx.net^$3p,domain=index.hr
 ||openx.net^$subdocument,domain=index.hr
@@ -43,7 +52,7 @@ index.hr##iframe[src*="openx.net"]
 ||googlesyndication.com^$3p,domain=index.hr
 ||adservice.google.com^$3p,domain=index.hr
 
-! NEW FINAL: ContentYet ad-delivery endpoint observed in Index.hr sessions.
+! ContentYet ad-delivery endpoint observed in Index.hr sessions.
 ! Restricted to third-party requests from Index.hr to minimize collateral breakage.
 ||stg.fun.contentyet.com^$3p,domain=index.hr
 

@@ -1,6 +1,6 @@
 [Adblock Plus 3.10]
 ! Title: Index.hr - Brave Android FINAL anti-AdShield
-! Version: 2026-09-15.2-FINAL
+! Version: 2026-09-16.1-FINAL-HARDENED
 
 ! Stop known anti-AdShield inline code without blocking the loader request itself.
 index.hr##+js(acs, Element.prototype.setAttribute, /error-report|adShieldError|html-load.com/)
@@ -9,7 +9,7 @@ index.hr##+js(acs, Node.prototype.appendChild, html-load.com)
 
 ! Current uBO non-trusted Index.hr patterns.
 index.hr##+js(ra, onerror, script[id][onerror], asap stay)
-index.hr##+js(rmnt, script, \,window])
+index.hr##+js(rmnt, script, \\,window])
 index.hr##+js(rmnt, script, html-load.com)
 index.hr##+js(rmnt, script, error-report.com)
 index.hr##+js(nostif, error-report.com)
@@ -28,33 +28,38 @@ index.hr##.google-billboard-top
 index.hr##[class*="google-box"]
 
 ! Durable block for the rotating assuredwhoa.com hosts used in Index.hr sessions.
-! Covers numbered subdomains and future numbered hosts without URL updates.
-||assuredwhoa.com^$3p,domain=index.hr
+! Explicitly covers both index.hr and www.index.hr as initiators.
+||assuredwhoa.com^$3p,domain=index.hr|www.index.hr
 
-! Durable block for the SinceAware/lyre AdChoices delivery host observed on Index.hr.
-! Base-domain match covers rotating subdomains such as 7.stg.lyre.sinceaware.com.
-||sinceaware.com^$3p,domain=index.hr
+! HARDENING: SinceAware/lyre is the click/AdChoices host visible in the reported ad URL.
+! Do not restrict this block to third-party requests: the host must not load or navigate from Index.hr.
+||sinceaware.com^$3p,domain=index.hr|www.index.hr
+||sinceaware.com^$subdocument,domain=index.hr|www.index.hr
+||sinceaware.com^$document,domain=index.hr|www.index.hr
 
-! Remove the ad/AdChoices iframe itself and collapse its direct ad wrapper.
-! The second rule prevents the large grey empty slot from surviving a blocked frame.
-index.hr##iframe[src*="sinceaware.com"]:remove()
-index.hr#?#div:has(> iframe[src*="sinceaware.com"]):remove()
+! DOM fallback: catches the ad even when the SinceAware URL survives only as iframe/src/href markup.
+index.hr##iframe[src*="sinceaware.com"]
+index.hr##a[href*="sinceaware.com"]
+index.hr##[href*="sinceaware.com"]
+index.hr##[data-href*="sinceaware.com"]
+index.hr#?#div:has(> iframe[src*="sinceaware.com"])
+index.hr#?#div:has(> a[href*="sinceaware.com"])
 
 ! Block the full OpenX ad family used by Index.hr, including regional u.openx hosts.
-||openx.net^$3p,domain=index.hr
-||openx.net^$subdocument,domain=index.hr
+||openx.net^$3p,domain=index.hr|www.index.hr
+||openx.net^$subdocument,domain=index.hr|www.index.hr
 index.hr##iframe[src*="openx.net"]
 
 ! Block common Google ad-delivery endpoints on Index.hr.
-||googleads.g.doubleclick.net^$3p,domain=index.hr
-||securepubads.g.doubleclick.net^$3p,domain=index.hr
-||pagead2.googlesyndication.com^$3p,domain=index.hr
-||googlesyndication.com^$3p,domain=index.hr
-||adservice.google.com^$3p,domain=index.hr
+||googleads.g.doubleclick.net^$3p,domain=index.hr|www.index.hr
+||securepubads.g.doubleclick.net^$3p,domain=index.hr|www.index.hr
+||pagead2.googlesyndication.com^$3p,domain=index.hr|www.index.hr
+||googlesyndication.com^$3p,domain=index.hr|www.index.hr
+||adservice.google.com^$3p,domain=index.hr|www.index.hr
 
 ! ContentYet ad-delivery endpoint observed in Index.hr sessions.
 ! Restricted to third-party requests from Index.hr to minimize collateral breakage.
-||stg.fun.contentyet.com^$3p,domain=index.hr
+||stg.fun.contentyet.com^$3p,domain=index.hr|www.index.hr
 
-! Deliberately omitted: direct network blocking of html-load.com,
-! error-report.com, first-party ad endpoints, and broad 3p blocking.
+! Deliberately omitted: direct network blocking of html-load.com and error-report.com,
+! first-party Index.hr endpoints, and broad 3p blocking.

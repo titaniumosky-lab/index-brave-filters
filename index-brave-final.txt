@@ -1,21 +1,61 @@
 [Adblock Plus 3.10]
-! Title: Index.hr - Brave Android FINAL anti-AdShield
-! Version: 2026-09-16.1-FINAL-HARDENED
+! Title: Index.hr - Brave Android FINAL STATIC HARDENED
+! Version: 2026-09-16.2-FINAL-STATIC
+!
+! IMPORTANT: Prefer native network/CSS rules on Brave Android.
+! Avoid relying on uBO scriptlets/procedural operators for the decisive ad block.
 
-! Stop known anti-AdShield inline code without blocking the loader request itself.
-index.hr##+js(acs, Element.prototype.setAttribute, /error-report|adShieldError|html-load.com/)
-index.hr##+js(acs, Node.prototype.insertBefore, html-load.com)
-index.hr##+js(acs, Node.prototype.appendChild, html-load.com)
+! ============================================================
+! 1) Direct ad/tracker delivery hosts observed for this case
+! ============================================================
 
-! Current uBO non-trusted Index.hr patterns.
-index.hr##+js(ra, onerror, script[id][onerror], asap stay)
-index.hr##+js(rmnt, script, \\,window])
-index.hr##+js(rmnt, script, html-load.com)
-index.hr##+js(rmnt, script, error-report.com)
-index.hr##+js(nostif, error-report.com)
-index.hr##+js(nostif, adShieldError)
+! SinceAware / lyre delivery and click-tracking family.
+! Intentionally not restricted to 3p: the reported URL itself is
+! https://8.stg.lyre.sinceaware.com/session/...
+||sinceaware.com^$domain=index.hr|www.index.hr
+||sinceaware.com^$3p,domain=index.hr|www.index.hr
+||sinceaware.com^$subdocument,domain=index.hr|www.index.hr
 
-! Conservative cosmetic ad cleanup.
+! The actual visible ad destination captured in the screenshot.
+! Block it only when requested/embedded from Index.hr.
+||single-market-economy.ec.europa.eu^$3p,domain=index.hr|www.index.hr
+||single-market-economy.ec.europa.eu^$subdocument,domain=index.hr|www.index.hr
+
+! Other delivery families already observed around Index.hr.
+||assuredwhoa.com^$3p,domain=index.hr|www.index.hr
+||openx.net^$3p,domain=index.hr|www.index.hr
+||openx.net^$subdocument,domain=index.hr|www.index.hr
+||googleads.g.doubleclick.net^$3p,domain=index.hr|www.index.hr
+||securepubads.g.doubleclick.net^$3p,domain=index.hr|www.index.hr
+||pagead2.googlesyndication.com^$3p,domain=index.hr|www.index.hr
+||googlesyndication.com^$3p,domain=index.hr|www.index.hr
+||adservice.google.com^$3p,domain=index.hr|www.index.hr
+||stg.fun.contentyet.com^$3p,domain=index.hr|www.index.hr
+
+! ============================================================
+! 2) Native CSS cleanup for the exact ad destination/link
+! ============================================================
+
+! Hide direct iframe/anchor references if the URL remains in the DOM.
+index.hr##iframe[src*="sinceaware.com"]
+index.hr##iframe[src*="single-market-economy.ec.europa.eu"]
+index.hr##a[href*="sinceaware.com"]
+index.hr##[href*="sinceaware.com"]
+index.hr##a[href*="single-market-economy.ec.europa.eu"]
+index.hr##[href*="single-market-economy.ec.europa.eu"]
+index.hr##[data-href*="sinceaware.com"]
+index.hr##[data-href*="single-market-economy.ec.europa.eu"]
+
+! Hide the immediate ad container when the exact destination link is present.
+! Uses native :has(), not uBO #?# procedural syntax.
+index.hr##div:has(> a[href*="single-market-economy.ec.europa.eu"])
+index.hr##div:has(> [href*="single-market-economy.ec.europa.eu"])
+index.hr##article:has(> a[href*="single-market-economy.ec.europa.eu"])
+index.hr##section:has(> a[href*="single-market-economy.ec.europa.eu"])
+
+! ============================================================
+! 3) General conservative ad-slot cleanup
+! ============================================================
 index.hr##[class*="ad-slot"]
 index.hr##[class*="ad-container"]
 index.hr##[id*="ad-slot"]
@@ -27,39 +67,6 @@ index.hr##div[id^="div-gpt-ad"]
 index.hr##.google-billboard-top
 index.hr##[class*="google-box"]
 
-! Durable block for the rotating assuredwhoa.com hosts used in Index.hr sessions.
-! Explicitly covers both index.hr and www.index.hr as initiators.
-||assuredwhoa.com^$3p,domain=index.hr|www.index.hr
-
-! HARDENING: SinceAware/lyre is the click/AdChoices host visible in the reported ad URL.
-! Do not restrict this block to third-party requests: the host must not load or navigate from Index.hr.
-||sinceaware.com^$3p,domain=index.hr|www.index.hr
-||sinceaware.com^$subdocument,domain=index.hr|www.index.hr
-||sinceaware.com^$document,domain=index.hr|www.index.hr
-
-! DOM fallback: catches the ad even when the SinceAware URL survives only as iframe/src/href markup.
-index.hr##iframe[src*="sinceaware.com"]
-index.hr##a[href*="sinceaware.com"]
-index.hr##[href*="sinceaware.com"]
-index.hr##[data-href*="sinceaware.com"]
-index.hr#?#div:has(> iframe[src*="sinceaware.com"])
-index.hr#?#div:has(> a[href*="sinceaware.com"])
-
-! Block the full OpenX ad family used by Index.hr, including regional u.openx hosts.
-||openx.net^$3p,domain=index.hr|www.index.hr
-||openx.net^$subdocument,domain=index.hr|www.index.hr
-index.hr##iframe[src*="openx.net"]
-
-! Block common Google ad-delivery endpoints on Index.hr.
-||googleads.g.doubleclick.net^$3p,domain=index.hr|www.index.hr
-||securepubads.g.doubleclick.net^$3p,domain=index.hr|www.index.hr
-||pagead2.googlesyndication.com^$3p,domain=index.hr|www.index.hr
-||googlesyndication.com^$3p,domain=index.hr|www.index.hr
-||adservice.google.com^$3p,domain=index.hr|www.index.hr
-
-! ContentYet ad-delivery endpoint observed in Index.hr sessions.
-! Restricted to third-party requests from Index.hr to minimize collateral breakage.
-||stg.fun.contentyet.com^$3p,domain=index.hr|www.index.hr
-
-! Deliberately omitted: direct network blocking of html-load.com and error-report.com,
-! first-party Index.hr endpoints, and broad 3p blocking.
+! NOTE: No broad first-party Index.hr blocking.
+! No broad ec.europa.eu blocking.
+! No global iframe blocking.

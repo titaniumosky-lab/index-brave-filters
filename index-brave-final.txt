@@ -1,10 +1,19 @@
 [Adblock Plus 3.10]
-! Title: Index.hr - Brave Android FINAL GOOGLE-ADCHOICES HARDENED
-! Version: 2026-09-16.3-FINAL-GOOGLE
+! Title: Index.hr - Brave Android FINAL FAIL-CLOSED AD PERIMETER
+! Version: 2026-09-17.1-FAIL-CLOSED
 !
-! Goal: block recurring Google/AdChoices ad delivery on Index.hr using
-! Brave-compatible native network and CSS rules. Keep Index.hr first-party
-! resources intact and avoid broad global 3p blocking.
+! Goal: do not chase individual ad vendors. Instead, close the delivery
+! paths that can carry or execute advertising on Index.hr, while keeping
+! Index.hr first-party page resources as intact as practical.
+!
+! IMPORTANT DESIGN LIMIT:
+! A static content blocker cannot mathematically guarantee removal of an
+! ad that is rendered entirely as first-party HTML/content with no ad-like
+! marker. The rules below therefore use a fail-closed network perimeter:
+! unknown third-party delivery domains do not need to be known in advance,
+! and first-party frame / external-connect paths used by ad loaders are
+! also constrained. This is intentionally more aggressive than vendor
+! chasing and can affect legitimate third-party embeds on Index.hr.
 
 ! ============================================================
 ! 1) Anti-AdShield code already observed on Index.hr
@@ -118,8 +127,87 @@ index.hr##[id^="google_ads_iframe_"]
 index.hr##.google-billboard-top
 index.hr##[class*="google-box"]
 
-! Intentionally omitted:
-! - broad blocking of all third-party traffic
-! - broad blocking of all google.com traffic
-! - blocking Index.hr first-party endpoints
-! - broad iframe blocking
+! ============================================================
+! 8) FAIL-CLOSED: UNKNOWN THIRD-PARTY AD DELIVERY
+! ============================================================
+! This is the key change. Any future vendor/domain is caught automatically
+! as long as the ad payload is delivered as a third-party resource.
+! $important is intentional so site-specific exceptions elsewhere do not
+! silently re-open the perimeter.
+*$3p,script,important,domain=index.hr|www.index.hr
+*$3p,subdocument,important,domain=index.hr|www.index.hr
+*$3p,xhr,important,domain=index.hr|www.index.hr
+*$3p,websocket,important,domain=index.hr|www.index.hr
+*$3p,image,important,domain=index.hr|www.index.hr
+*$3p,media,important,domain=index.hr|www.index.hr
+*$3p,object,important,domain=index.hr|www.index.hr
+*$3p,ping,important,domain=index.hr|www.index.hr
+*$3p,other,important,domain=index.hr|www.index.hr
+
+! ============================================================
+! 9) FAIL-CLOSED: FIRST-PARTY / SAME-SITE FRAME DELIVERY
+! ============================================================
+! Prevent an unknown first-party or same-site iframe from becoming an
+! ad delivery container. This is deliberately stricter than the normal
+! 3p rules above.
+*$subdocument,important,domain=index.hr|www.index.hr
+
+! Defence in depth: page-level CSP prevents any frame navigation, including
+! if a request later becomes exempted by another filter source.
+||index.hr^$csp=frame-src 'none'
+||index.hr^$csp=object-src 'none'
+
+! ============================================================
+! 10) FAIL-CLOSED: EXTERNAL AD AUCTION / DELIVERY CONNECTIONS
+! ============================================================
+! Block future unknown third-party fetch/XHR/WebSocket delivery without
+! needing to know the destination domain in advance.
+||index.hr^$csp=connect-src 'self' https://*.index.hr
+
+! ============================================================
+! 11) FIRST-PARTY AD LOADER PATH HEURISTICS
+! ============================================================
+! These are supplementary only. The broad perimeter above is what provides
+! vendor-independent blocking. These patterns catch conventional first-party
+! ad endpoints when Index exposes them by semantic URL path.
+||index.hr/*/ads/*$script,important,domain=index.hr|www.index.hr
+||index.hr/*/ad/*$script,important,domain=index.hr|www.index.hr
+||index.hr/*/advertising/*$script,important,domain=index.hr|www.index.hr
+||index.hr/*/adserver/*$script,important,domain=index.hr|www.index.hr
+||index.hr/*/prebid/*$script,important,domain=index.hr|www.index.hr
+||index.hr/*/openrtb/*$script,important,domain=index.hr|www.index.hr
+||index.hr/*/gpt/*$script,important,domain=index.hr|www.index.hr
+||index.hr/*/banner/*$script,important,domain=index.hr|www.index.hr
+||index.hr/*/sponsor/*$script,important,domain=index.hr|www.index.hr
+||index.hr/*/promo/*$script,important,domain=index.hr|www.index.hr
+
+||index.hr/*/ads/*$xhr,important,domain=index.hr|www.index.hr
+||index.hr/*/ad/*$xhr,important,domain=index.hr|www.index.hr
+||index.hr/*/advertising/*$xhr,important,domain=index.hr|www.index.hr
+||index.hr/*/adserver/*$xhr,important,domain=index.hr|www.index.hr
+||index.hr/*/prebid/*$xhr,important,domain=index.hr|www.index.hr
+||index.hr/*/openrtb/*$xhr,important,domain=index.hr|www.index.hr
+||index.hr/*/gpt/*$xhr,important,domain=index.hr|www.index.hr
+||index.hr/*/banner/*$xhr,important,domain=index.hr|www.index.hr
+||index.hr/*/sponsor/*$xhr,important,domain=index.hr|www.index.hr
+||index.hr/*/promo/*$xhr,important,domain=index.hr|www.index.hr
+
+! ============================================================
+! 12) Explicitly observed unlikebuck family
+! ============================================================
+! The screenshot URL was:
+! 7.stg.gray.unlikebuck.com/.../www.index.hr/...
+! The rule below blocks the whole rotating unlikebuck family from Index.
+||unlikebuck.com^$3p,important,domain=index.hr|www.index.hr
+||unlikebuck.com^$subdocument,important,domain=index.hr|www.index.hr
+
+! ============================================================
+! Intentionally NOT blocked globally:
+! - Index.hr first-party scripts
+! - Index.hr first-party images/CDN resources
+! - generic Google.com traffic
+! - all stylesheets/fonts
+!
+! Trade-off: unknown third-party embeds/resources on Index.hr can stop working.
+! That trade-off is intentional: the objective is a fail-closed ad perimeter,
+! not maximum compatibility with third-party widgets.

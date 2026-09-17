@@ -1,12 +1,13 @@
 [Adblock Plus 3.10]
 ! Title: Index.hr - Brave Android FINAL ADCHOICES HARD + SOCIAL VIDEO
-! Version: 2026-09-17.3-ADCHOICES-HARD
+! Version: 2026-09-17.4-INDEX-CAROUSEL-HARD
 !
 ! Design goal:
 ! - block advertising without chasing each new delivery hostname
 ! - hard-block known ad/RTB ecosystems on Index so later exceptions cannot reopen them
 ! - hide unknown external ad iframes even when the network URL is not yet known
 ! - block conventional first-party ad-loader paths
+! - block Index first-party ad/campaign carousel delivery identified in uAssets reports
 ! - preserve normal Index first-party resources
 ! - preserve embedded social/video content through a narrow compatibility allowlist
 !
@@ -101,7 +102,7 @@ index.hr##+js(nostif, adShieldError)
 ||adservice.google.com^$important,domain=index.hr|www.index.hr
 
 ! ============================================================
-! 4) Ad DOM + AdChoices cleanup on first-party Index DOM
+! 4) Ad DOM + AdChoices + Index campaign carousel cleanup
 ! ============================================================
 index.hr##ins.adsbygoogle
 index.hr##.google-auto-placed
@@ -132,6 +133,8 @@ index.hr##[class*="AdChoices"]
 index.hr##[class*="adchoices"]
 index.hr##[aria-label*="AdChoices"]
 index.hr##[title*="AdChoices"]
+index.hr##.js-carousel-campaign
+||index.hr/embed/carousel/*?countUpImpression=
 
 ! Known ad iframes — cosmetic backup in case the network layer is bypassed
 index.hr##iframe[src*="openx.net"]

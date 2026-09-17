@@ -1,19 +1,22 @@
 [Adblock Plus 3.10]
-! Title: Index.hr - Brave Android FINAL FAIL-CLOSED AD PERIMETER
-! Version: 2026-09-17.1-FAIL-CLOSED
+! Title: Index.hr - Brave Android FINAL FAIL-CLOSED + SOCIAL VIDEO COMPAT
+! Version: 2026-09-17.2-SOCIAL-COMPAT
 !
-! Goal: do not chase individual ad vendors. Instead, close the delivery
-! paths that can carry or execute advertising on Index.hr, while keeping
-! Index.hr first-party page resources as intact as practical.
+! Goal:
+! - stop unknown advertising delivery on Index.hr without chasing vendors
+! - block unknown third-party ad/tracking delivery channels from the Index page
+! - block unknown first-party/same-site iframe ad loaders
+! - preserve normal first-party Index page resources
+! - preserve embedded video/social media content from a narrow allowlist
 !
-! IMPORTANT DESIGN LIMIT:
-! A static content blocker cannot mathematically guarantee removal of an
-! ad that is rendered entirely as first-party HTML/content with no ad-like
-! marker. The rules below therefore use a fail-closed network perimeter:
-! unknown third-party delivery domains do not need to be known in advance,
-! and first-party frame / external-connect paths used by ad loaders are
-! also constrained. This is intentionally more aggressive than vendor
-! chasing and can affect legitimate third-party embeds on Index.hr.
+! Fundamental limit:
+! A static filter cannot classify arbitrary first-party HTML as an ad by meaning.
+! This list therefore uses a fail-closed NETWORK + FRAME perimeter. Unknown
+! third-party delivery is denied on the Index top-level page; unknown Index-origin
+! frames are denied; known social/video platforms are explicitly permitted.
+!
+! Trade-off:
+! Third-party widgets not on the social/video allowlist may stop working.
 
 ! ============================================================
 ! 1) Anti-AdShield code already observed on Index.hr
@@ -29,57 +32,43 @@ index.hr##+js(nostif, error-report.com)
 index.hr##+js(nostif, adShieldError)
 
 ! ============================================================
-! 2) SinceAware / lyre layer seen in the reported copied URL
+! 2) Previously observed vendor/ad-delivery families
 ! ============================================================
-||sinceaware.com^$domain=index.hr|www.index.hr
 ||sinceaware.com^$3p,domain=index.hr|www.index.hr
 ||sinceaware.com^$subdocument,domain=index.hr|www.index.hr
-||sinceaware.com^$document,domain=index.hr|www.index.hr
-
-! ============================================================
-! 3) Exact ad destination visible in the screenshot
-! ============================================================
 ||single-market-economy.ec.europa.eu^$3p,domain=index.hr|www.index.hr
 ||single-market-economy.ec.europa.eu^$subdocument,domain=index.hr|www.index.hr
-
-! ============================================================
-! 4) GOOGLE ADS / ADCHOICES - expanded network coverage
-! ============================================================
-! Root Google ad-serving families. No 3p restriction here: the intent is
-! to stop ad-document delivery even if Chromium classifies the request oddly.
-||doubleclick.net^$domain=index.hr|www.index.hr
-||doubleclick.net^$subdocument,domain=index.hr|www.index.hr
-||googlesyndication.com^$domain=index.hr|www.index.hr
-||googlesyndication.com^$subdocument,domain=index.hr|www.index.hr
-||googleadservices.com^$domain=index.hr|www.index.hr
-||googleadservices.com^$subdocument,domain=index.hr|www.index.hr
-||googletagservices.com^$3p,domain=index.hr|www.index.hr
-||2mdn.net^$3p,domain=index.hr|www.index.hr
-
-! Specific Google ad hosts commonly used by AdSense/Ad Manager.
-||googleads.g.doubleclick.net^$domain=index.hr|www.index.hr
-||googleads.g.doubleclick.net^$subdocument,domain=index.hr|www.index.hr
-||adclick.g.doubleclick.net^$domain=index.hr|www.index.hr
-||adclick.g.doubleclick.net^$subdocument,domain=index.hr|www.index.hr
-||ad.doubleclick.net^$domain=index.hr|www.index.hr
-||ad.doubleclick.net^$subdocument,domain=index.hr|www.index.hr
-||g.doubleclick.net^$3p,domain=index.hr|www.index.hr
-||pagead2.googlesyndication.com^$domain=index.hr|www.index.hr
-||pagead2.googlesyndication.com^$subdocument,domain=index.hr|www.index.hr
-||tpc.googlesyndication.com^$domain=index.hr|www.index.hr
-||tpc.googlesyndication.com^$subdocument,domain=index.hr|www.index.hr
-||securepubads.g.doubleclick.net^$domain=index.hr|www.index.hr
-||securepubads.g.doubleclick.net^$subdocument,domain=index.hr|www.index.hr
-||googleadsservices.com^$3p,domain=index.hr|www.index.hr
-||adservice.google.com^$domain=index.hr|www.index.hr
-||adservice.google.com^$subdocument,domain=index.hr|www.index.hr
+||assuredwhoa.com^$3p,domain=index.hr|www.index.hr
+||openx.net^$3p,domain=index.hr|www.index.hr
+||openx.net^$subdocument,domain=index.hr|www.index.hr
+||unlikebuck.com^$3p,important,domain=index.hr|www.index.hr
+||unlikebuck.com^$subdocument,important,domain=index.hr|www.index.hr
 ||stg.fun.contentyet.com^$3p,domain=index.hr|www.index.hr
 
 ! ============================================================
-! 5) Google AdSense / Ad Manager DOM markers
+! 3) Google / AdSense / Ad Manager delivery
 ! ============================================================
-! Google documents the standard <ins class="adsbygoogle"> ad container.
-! These selectors target the ad container/iframe, not ordinary article text.
+||doubleclick.net^$3p,domain=index.hr|www.index.hr
+||doubleclick.net^$subdocument,domain=index.hr|www.index.hr
+||googlesyndication.com^$3p,domain=index.hr|www.index.hr
+||googlesyndication.com^$subdocument,domain=index.hr|www.index.hr
+||googleadservices.com^$3p,domain=index.hr|www.index.hr
+||googleadservices.com^$subdocument,domain=index.hr|www.index.hr
+||googletagservices.com^$3p,domain=index.hr|www.index.hr
+||2mdn.net^$3p,domain=index.hr|www.index.hr
+||googleads.g.doubleclick.net^$3p,domain=index.hr|www.index.hr
+||adclick.g.doubleclick.net^$3p,domain=index.hr|www.index.hr
+||ad.doubleclick.net^$3p,domain=index.hr|www.index.hr
+||g.doubleclick.net^$3p,domain=index.hr|www.index.hr
+||pagead2.googlesyndication.com^$3p,domain=index.hr|www.index.hr
+||tpc.googlesyndication.com^$3p,domain=index.hr|www.index.hr
+||securepubads.g.doubleclick.net^$3p,domain=index.hr|www.index.hr
+||googleadsservices.com^$3p,domain=index.hr|www.index.hr
+||adservice.google.com^$3p,domain=index.hr|www.index.hr
+
+! ============================================================
+! 4) AdSense / Ad Manager DOM cleanup
+! ============================================================
 index.hr##ins.adsbygoogle
 index.hr##ins.adsbygoogle[data-ad-status]
 index.hr##ins.adsbygoogle[data-ad-client]
@@ -97,8 +86,6 @@ index.hr##iframe[src*="doubleclick.net"]
 index.hr##iframe[src*="googlesyndication.com"]
 index.hr##iframe[src*="googlesyndication"]
 index.hr##iframe[src*="googleadservices.com"]
-
-! Generic Google ad semantics used by AdSense wrappers.
 index.hr##[aria-label="Advertisement"]
 index.hr##[title="Advertisement"]
 index.hr##[data-ad-client]
@@ -106,17 +93,6 @@ index.hr##[data-ad-slot]
 index.hr##[data-ad-format]
 index.hr##[data-ad-status]
 index.hr##[data-adsbygoogle-status]
-
-! ============================================================
-! 6) Other observed ad families
-! ============================================================
-||assuredwhoa.com^$3p,domain=index.hr|www.index.hr
-||openx.net^$3p,domain=index.hr|www.index.hr
-||openx.net^$subdocument,domain=index.hr|www.index.hr
-
-! ============================================================
-! 7) Conservative generic Index ad-slot cleanup
-! ============================================================
 index.hr##[class*="ad-slot"]
 index.hr##[class*="ad-container"]
 index.hr##[id*="ad-slot"]
@@ -128,48 +104,101 @@ index.hr##.google-billboard-top
 index.hr##[class*="google-box"]
 
 ! ============================================================
-! 8) FAIL-CLOSED: UNKNOWN THIRD-PARTY AD DELIVERY
+! 5) FAIL-CLOSED: unknown third-party delivery from Index.hr
 ! ============================================================
-! This is the key change. Any future vendor/domain is caught automatically
-! as long as the ad payload is delivered as a third-party resource.
-! $important is intentional so site-specific exceptions elsewhere do not
-! silently re-open the perimeter.
-*$3p,script,important,domain=index.hr|www.index.hr
-*$3p,subdocument,important,domain=index.hr|www.index.hr
-*$3p,xhr,important,domain=index.hr|www.index.hr
-*$3p,websocket,important,domain=index.hr|www.index.hr
-*$3p,image,important,domain=index.hr|www.index.hr
-*$3p,media,important,domain=index.hr|www.index.hr
-*$3p,object,important,domain=index.hr|www.index.hr
-*$3p,ping,important,domain=index.hr|www.index.hr
-*$3p,other,important,domain=index.hr|www.index.hr
+! Intentionally no $important here: known social/video exceptions below must
+! be able to preserve embeds. Specific known ad domains above remain blocked.
+*$3p,script,domain=index.hr|www.index.hr
+*$3p,subdocument,domain=index.hr|www.index.hr
+*$3p,xhr,domain=index.hr|www.index.hr
+*$3p,websocket,domain=index.hr|www.index.hr
+*$3p,image,domain=index.hr|www.index.hr
+*$3p,media,domain=index.hr|www.index.hr
+*$3p,object,domain=index.hr|www.index.hr
+*$3p,ping,domain=index.hr|www.index.hr
+*$3p,other,domain=index.hr|www.index.hr
 
 ! ============================================================
-! 9) FAIL-CLOSED: FIRST-PARTY / SAME-SITE FRAME DELIVERY
+! 6) FAIL-CLOSED: first-party/same-site frame delivery
 ! ============================================================
-! Prevent an unknown first-party or same-site iframe from becoming an
-! ad delivery container. This is deliberately stricter than the normal
-! 3p rules above.
-*$subdocument,important,domain=index.hr|www.index.hr
+! An Index-origin iframe is not a normal article resource. Deny it by default so
+! a future first-party ad loader cannot simply move the ad into /some-random-path.
+*$1p,subdocument,important,domain=index.hr|www.index.hr
 
-! Defence in depth: page-level CSP prevents any frame navigation, including
-! if a request later becomes exempted by another filter source.
-||index.hr^$csp=frame-src 'none'
+! ============================================================
+! 7) CSP FRAME PERIMETER
+! ============================================================
+! Unknown first-party and unknown third-party frames are denied at the page level.
+! Known social/video origins are explicitly allowed.
+||index.hr^$csp=frame-src https://youtube.com https://*.youtube.com https://youtube-nocookie.com https://*.youtube-nocookie.com https://vimeo.com https://*.vimeo.com https://vimeocdn.com https://*.vimeocdn.com https://facebook.com https://*.facebook.com https://instagram.com https://*.instagram.com https://cdninstagram.com https://*.cdninstagram.com https://tiktok.com https://*.tiktok.com https://twitter.com https://*.twitter.com https://x.com https://*.x.com https://twimg.com https://*.twimg.com https://dailymotion.com https://*.dailymotion.com https://twitch.tv https://*.twitch.tv https://reddit.com https://*.reddit.com https://redditmedia.com https://*.redditmedia.com https://redditstatic.com https://*.redditstatic.com https://linkedin.com https://*.linkedin.com
 ||index.hr^$csp=object-src 'none'
 
 ! ============================================================
-! 10) FAIL-CLOSED: EXTERNAL AD AUCTION / DELIVERY CONNECTIONS
+! 8) CSP CONNECT PERIMETER
 ! ============================================================
-! Block future unknown third-party fetch/XHR/WebSocket delivery without
-! needing to know the destination domain in advance.
-||index.hr^$csp=connect-src 'self' https://*.index.hr
+! Index itself may connect only to itself plus the narrow social/video set.
+! Unknown ad auction / delivery endpoints do not need to be known in advance.
+||index.hr^$csp=connect-src 'self' https://index.hr https://*.index.hr https://youtube.com https://*.youtube.com https://youtube-nocookie.com https://*.youtube-nocookie.com https://vimeo.com https://*.vimeo.com https://vimeocdn.com https://*.vimeocdn.com https://facebook.com https://*.facebook.com https://instagram.com https://*.instagram.com https://cdninstagram.com https://*.cdninstagram.com https://tiktok.com https://*.tiktok.com https://twitter.com https://*.twitter.com https://x.com https://*.x.com https://twimg.com https://*.twimg.com https://dailymotion.com https://*.dailymotion.com https://twitch.tv https://*.twitch.tv https://reddit.com https://*.reddit.com https://redditmedia.com https://*.redditmedia.com https://redditstatic.com https://*.redditstatic.com https://linkedin.com https://*.linkedin.com
 
 ! ============================================================
-! 11) FIRST-PARTY AD LOADER PATH HEURISTICS
+! 9) SOCIAL / VIDEO COMPATIBILITY EXCEPTIONS
 ! ============================================================
-! These are supplementary only. The broad perimeter above is what provides
-! vendor-independent blocking. These patterns catch conventional first-party
-! ad endpoints when Index exposes them by semantic URL path.
+! These are narrow destination allowlists for resources initiated directly by
+! Index.hr. Requests made inside the social iframe are outside the Index domain
+! scope and are therefore not hit by the Index-scoped third-party perimeter.
+!
+! YouTube / YouTube no-cookie / video CDN
+@@||youtube.com^$domain=index.hr|www.index.hr
+@@||youtube-nocookie.com^$domain=index.hr|www.index.hr
+@@||ytimg.com^$domain=index.hr|www.index.hr
+@@||googlevideo.com^$domain=index.hr|www.index.hr
+
+! Vimeo
+@@||vimeo.com^$domain=index.hr|www.index.hr
+@@||vimeocdn.com^$domain=index.hr|www.index.hr
+
+! Facebook / Instagram
+@@||facebook.com^$domain=index.hr|www.index.hr
+@@||facebook.net^$domain=index.hr|www.index.hr
+@@||fbcdn.net^$domain=index.hr|www.index.hr
+@@||instagram.com^$domain=index.hr|www.index.hr
+@@||cdninstagram.com^$domain=index.hr|www.index.hr
+
+! TikTok
+@@||tiktok.com^$domain=index.hr|www.index.hr
+@@||tiktokcdn.com^$domain=index.hr|www.index.hr
+@@||muscdn.com^$domain=index.hr|www.index.hr
+
+! X / Twitter
+@@||twitter.com^$domain=index.hr|www.index.hr
+@@||platform.twitter.com^$domain=index.hr|www.index.hr
+@@||syndication.twitter.com^$domain=index.hr|www.index.hr
+@@||twimg.com^$domain=index.hr|www.index.hr
+@@||x.com^$domain=index.hr|www.index.hr
+
+! Dailymotion
+@@||dailymotion.com^$domain=index.hr|www.index.hr
+@@||dmcdn.net^$domain=index.hr|www.index.hr
+
+! Twitch
+@@||twitch.tv^$domain=index.hr|www.index.hr
+@@||ttvnw.net^$domain=index.hr|www.index.hr
+@@||jtvnw.net^$domain=index.hr|www.index.hr
+
+! Reddit
+@@||reddit.com^$domain=index.hr|www.index.hr
+@@||redditmedia.com^$domain=index.hr|www.index.hr
+@@||redditstatic.com^$domain=index.hr|www.index.hr
+@@||redd.it^$domain=index.hr|www.index.hr
+
+! LinkedIn
+@@||linkedin.com^$domain=index.hr|www.index.hr
+@@||licdn.com^$domain=index.hr|www.index.hr
+
+! ============================================================
+! 10) FIRST-PARTY AD LOADER PATH HEURISTICS
+! ============================================================
+! Supplementary defense for conventional same-origin ad endpoints.
 ||index.hr/*/ads/*$script,important,domain=index.hr|www.index.hr
 ||index.hr/*/ad/*$script,important,domain=index.hr|www.index.hr
 ||index.hr/*/advertising/*$script,important,domain=index.hr|www.index.hr
@@ -180,7 +209,6 @@ index.hr##[class*="google-box"]
 ||index.hr/*/banner/*$script,important,domain=index.hr|www.index.hr
 ||index.hr/*/sponsor/*$script,important,domain=index.hr|www.index.hr
 ||index.hr/*/promo/*$script,important,domain=index.hr|www.index.hr
-
 ||index.hr/*/ads/*$xhr,important,domain=index.hr|www.index.hr
 ||index.hr/*/ad/*$xhr,important,domain=index.hr|www.index.hr
 ||index.hr/*/advertising/*$xhr,important,domain=index.hr|www.index.hr
@@ -193,21 +221,11 @@ index.hr##[class*="google-box"]
 ||index.hr/*/promo/*$xhr,important,domain=index.hr|www.index.hr
 
 ! ============================================================
-! 12) Explicitly observed unlikebuck family
+! 11) Intentionally not globally blocked
 ! ============================================================
-! The screenshot URL was:
-! 7.stg.gray.unlikebuck.com/.../www.index.hr/...
-! The rule below blocks the whole rotating unlikebuck family from Index.
-||unlikebuck.com^$3p,important,domain=index.hr|www.index.hr
-||unlikebuck.com^$subdocument,important,domain=index.hr|www.index.hr
-
-! ============================================================
-! Intentionally NOT blocked globally:
-! - Index.hr first-party scripts
-! - Index.hr first-party images/CDN resources
-! - generic Google.com traffic
-! - all stylesheets/fonts
+! - first-party Index scripts/images/media/font/stylesheet resources
+! - stylesheet/font requests in general
+! - social/video origins listed above
 !
-! Trade-off: unknown third-party embeds/resources on Index.hr can stop working.
-! That trade-off is intentional: the objective is a fail-closed ad perimeter,
-! not maximum compatibility with third-party widgets.
+! This version deliberately prefers working social/video embeds while still
+! maintaining a default-deny perimeter for unknown ad delivery on Index.hr.

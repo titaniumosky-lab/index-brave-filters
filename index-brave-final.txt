@@ -1,6 +1,6 @@
 [Adblock Plus 3.10]
 ! Title: Index.hr - Brave Android FINAL ADCHOICES HARD + BRID + SOCIAL VIDEO
-! Version: 2026-09-21.3-VIDEO-COMPAT-NO-CSP
+! Version: 2026-09-21.4-VIDEO-COMPAT-FIRSTPARTY-BRID
 !
 ! Design goal:
 ! - block advertising without chasing each new delivery hostname
@@ -183,6 +183,7 @@ index.hr##iframe[src*="googleadservices.com"]
 !     These exact paths are documented breakage fixes for Index video.
 ! ============================================================
 @@||index.hr/thirdparty/brid/*$script,1p
+@@||index.hr/thirdparty/brid/*$subdocument,1p
 @@||services.brid.tv/player/build/brid.min.js$script,domain=index.hr|www.index.hr
 @@||services.brid.tv/services/get/video/*$xhr,domain=index.hr|www.index.hr
 @@||services.brid.tv/services/get/playlist/*$xhr,domain=index.hr|www.index.hr
@@ -256,6 +257,7 @@ index.hr##iframe[src*="googleadservices.com"]
 ! - Brid exception is limited to player bootstrap + video API/iframe/media paths
 ! - no generic `@@||brid.tv^` exception was added
 ! - no page-level CSP allowlist is injected
+! - first-party Index Brid bootstrap iframe is explicitly exempted from the first-party frame deny rule
 ! - Google exception is limited to the exact IMA SDK script
 ! - nested resources inside the Brid child frame are not covered by the
 !   index.hr-scoped fail-closed perimeter, so this does not open third-party

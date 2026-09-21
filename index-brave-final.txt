@@ -204,6 +204,7 @@ index.hr##iframe[src]:not([src*="services.brid.tv"]):not([src*="youtube.com"]):n
 @@||instagram.com^$domain=index.hr|www.index.hr
 @@||cdninstagram.com^$domain=index.hr|www.index.hr
 @@||tiktok.com^$domain=index.hr|www.index.hr
+@@||*.tiktokcdn-us.com/obj/tiktok-web-tx/tiktok/falcon/embed/*$script,stylesheet,domain=index.hr|www.index.hr
 @@||tiktokcdn.com^$domain=index.hr|www.index.hr
 @@||muscdn.com^$domain=index.hr|www.index.hr
 @@||twitter.com^$domain=index.hr|www.index.hr

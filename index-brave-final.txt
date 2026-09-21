@@ -1,6 +1,6 @@
 [Adblock Plus 3.10]
-! Title: Index.hr - Brave Android FINAL ADCHOICES HARD + SOCIAL VIDEO
-! Version: 2026-09-17.4-INDEX-CAROUSEL-HARD
+! Title: Index.hr - Brave Android FINAL ADCHOICES HARD + BRID + SOCIAL VIDEO
+! Version: 2026-09-21.1-VIDEO-COMPAT-BRID
 !
 ! Design goal:
 ! - block advertising without chasing each new delivery hostname
@@ -166,18 +166,28 @@ index.hr##iframe[src*="googleadservices.com"]
 ! 7) FAIL-CLOSED: unknown external iframe cosmetic perimeter
 !    Social/video iframe hosts below are excluded explicitly.
 ! ============================================================
-index.hr##iframe[src]:not([src*="youtube.com"]):not([src*="youtube-nocookie.com"]):not([src*="vimeo.com"]):not([src*="vimeocdn.com"]):not([src*="facebook.com"]):not([src*="instagram.com"]):not([src*="cdninstagram.com"]):not([src*="tiktok.com"]):not([src*="twitter.com"]):not([src*="x.com"]):not([src*="twimg.com"]):not([src*="dailymotion.com"]):not([src*="dmcdn.net"]):not([src*="twitch.tv"]):not([src*="ttvnw.net"]):not([src*="jtvnw.net"]):not([src*="reddit.com"]):not([src*="redditmedia.com"]):not([src*="redditstatic.com"]):not([src*="linkedin.com"])
+index.hr##iframe[src]:not([src*="services.brid.tv"]):not([src*="youtube.com"]):not([src*="youtube-nocookie.com"]):not([src*="vimeo.com"]):not([src*="vimeocdn.com"]):not([src*="facebook.com"]):not([src*="instagram.com"]):not([src*="cdninstagram.com"]):not([src*="tiktok.com"]):not([src*="twitter.com"]):not([src*="x.com"]):not([src*="twimg.com"]):not([src*="dailymotion.com"]):not([src*="dmcdn.net"]):not([src*="twitch.tv"]):not([src*="ttvnw.net"]):not([src*="jtvnw.net"]):not([src*="reddit.com"]):not([src*="redditmedia.com"]):not([src*="redditstatic.com"]):not([src*="linkedin.com"])
 
 ! ============================================================
 ! 8) CSP frame perimeter
 ! ============================================================
-||index.hr^$csp=frame-src 'self' https://youtube.com https://*.youtube.com https://youtube-nocookie.com https://*.youtube-nocookie.com https://vimeo.com https://*.vimeo.com https://*.vimeocdn.com https://facebook.com https://*.facebook.com https://instagram.com https://*.instagram.com https://*.cdninstagram.com https://tiktok.com https://*.tiktok.com https://twitter.com https://*.twitter.com https://x.com https://*.x.com https://*.twimg.com https://dailymotion.com https://*.dailymotion.com https://twitch.tv https://*.twitch.tv https://reddit.com https://*.reddit.com https://*.redditmedia.com https://*.redditstatic.com https://linkedin.com https://*.linkedin.com
+||index.hr^$csp=frame-src 'self' https://youtube.com https://*.youtube.com https://youtube-nocookie.com https://*.youtube-nocookie.com https://vimeo.com https://*.vimeo.com https://*.vimeocdn.com https://services.brid.tv https://facebook.com https://*.facebook.com https://instagram.com https://*.instagram.com https://*.cdninstagram.com https://tiktok.com https://*.tiktok.com https://twitter.com https://*.twitter.com https://x.com https://*.x.com https://*.twimg.com https://dailymotion.com https://*.dailymotion.com https://twitch.tv https://*.twitch.tv https://reddit.com https://*.reddit.com https://*.redditmedia.com https://*.redditstatic.com https://linkedin.com https://*.linkedin.com
 ||index.hr^$csp=object-src 'none'
 
 ! ============================================================
 ! 9) CSP connect perimeter
 ! ============================================================
 ||index.hr^$csp=connect-src 'self' https://index.hr https://*.index.hr https://youtube.com https://*.youtube.com https://youtube-nocookie.com https://*.youtube-nocookie.com https://vimeo.com https://*.vimeo.com https://*.vimeocdn.com https://facebook.com https://*.facebook.com https://instagram.com https://*.instagram.com https://*.cdninstagram.com https://tiktok.com https://*.tiktok.com https://twitter.com https://*.twitter.com https://x.com https://*.x.com https://*.twimg.com https://dailymotion.com https://*.dailymotion.com https://twitch.tv https://*.twitch.tv https://reddit.com https://*.reddit.com https://*.redditmedia.com https://*.redditstatic.com https://linkedin.com https://*.linkedin.com
+
+! ============================================================
+! 10) INDEX NATIVE VIDEO / BRID COMPATIBILITY
+!     Narrow compatibility only — do not relax any $important ad rule.
+!     These exact paths are documented breakage fixes for Index video.
+! ============================================================
+@@||index.hr/thirdparty/brid/*$script,1p
+@@||services.brid.tv/player/build/brid.min.js$script,domain=index.hr|www.index.hr
+@@||services.brid.tv/services/iframe/video/*$subdocument,domain=index.hr|www.index.hr
+@@||imasdk.googleapis.com/js/sdkloader/ima3.js$script,domain=index.hr|www.index.hr
 
 ! ============================================================
 ! 10) SOCIAL / VIDEO network exceptions
@@ -238,6 +248,15 @@ index.hr##iframe[src]:not([src*="youtube.com"]):not([src*="youtube-nocookie.com"
 ||index.hr/*/promo/*$xhr,important,domain=index.hr|www.index.hr
 
 ! ============================================================
+! 13) VIDEO-COMPATIBILITY INVARIANT
+! - no existing $important vendor/domain ad block was modified
+! - no global third-party allowlist was added
+! - Brid exception is limited to the player script + video iframe path
+! - Google exception is limited to the exact IMA SDK script
+! - nested resources inside the Brid child frame are not covered by the
+!   index.hr-scoped fail-closed perimeter, so this does not open third-party
+!   resources on the parent Index page itself
+
 ! 12) Intentionally preserved
 ! ============================================================
 ! - normal first-party Index scripts/images/media/fonts/styles

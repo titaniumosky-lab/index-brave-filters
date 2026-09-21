@@ -1,6 +1,6 @@
 [Adblock Plus 3.10]
-! Title: Index.hr - Brave Android FINAL ADCHOICES HARD + BRID + SOCIAL VIDEO
-! Version: 2026-09-21.6-VIDEO-COMPAT-BRID-PLAYER
+! Title: Index.hr - Brave Android FINAL ADCHOICES HARD + SOCIAL VIDEO
+! Version: 2026-09-17.4-INDEX-CAROUSEL-HARD
 !
 ! Design goal:
 ! - block advertising without chasing each new delivery hostname
@@ -166,38 +166,18 @@ index.hr##iframe[src*="googleadservices.com"]
 ! 7) FAIL-CLOSED: unknown external iframe cosmetic perimeter
 !    Social/video iframe hosts below are excluded explicitly.
 ! ============================================================
-! Unknown external iframes are already fail-closed at the network layer
-! via $3p,subdocument above. No cosmetic iframe perimeter is needed here.
-! This avoids hiding a legitimate player while its source is initialized.
+index.hr##iframe[src]:not([src*="youtube.com"]):not([src*="youtube-nocookie.com"]):not([src*="vimeo.com"]):not([src*="vimeocdn.com"]):not([src*="facebook.com"]):not([src*="instagram.com"]):not([src*="cdninstagram.com"]):not([src*="tiktok.com"]):not([src*="twitter.com"]):not([src*="x.com"]):not([src*="twimg.com"]):not([src*="dailymotion.com"]):not([src*="dmcdn.net"]):not([src*="twitch.tv"]):not([src*="ttvnw.net"]):not([src*="jtvnw.net"]):not([src*="reddit.com"]):not([src*="redditmedia.com"]):not([src*="redditstatic.com"]):not([src*="linkedin.com"])
 
 ! ============================================================
-! 8) REMOVED — custom CSP perimeter
-!     Deliberately no page-level frame/connect CSP is injected here.
-!     The network fail-closed rules below provide the ad perimeter without
-!     imposing an additional allowlist that can break legitimate players.
+! 8) CSP frame perimeter
 ! ============================================================
+||index.hr^$csp=frame-src 'self' https://youtube.com https://*.youtube.com https://youtube-nocookie.com https://*.youtube-nocookie.com https://vimeo.com https://*.vimeo.com https://*.vimeocdn.com https://facebook.com https://*.facebook.com https://instagram.com https://*.instagram.com https://*.cdninstagram.com https://tiktok.com https://*.tiktok.com https://twitter.com https://*.twitter.com https://x.com https://*.x.com https://*.twimg.com https://dailymotion.com https://*.dailymotion.com https://twitch.tv https://*.twitch.tv https://reddit.com https://*.reddit.com https://*.redditmedia.com https://*.redditstatic.com https://linkedin.com https://*.linkedin.com
+||index.hr^$csp=object-src 'none'
 
 ! ============================================================
-! 10) INDEX NATIVE VIDEO / BRID COMPATIBILITY
-!     Narrow compatibility only — do not relax any $important ad rule.
-!     These exact paths are documented breakage fixes for Index video.
+! 9) CSP connect perimeter
 ! ============================================================
-@@||index.hr/thirdparty/brid/*$script,1p
-@@||index.hr/thirdparty/brid/*$subdocument,1p,important
-@@||services.brid.tv/player/build/brid.min.js$script,domain=index.hr|www.index.hr
-@@||services.brid.tv/player/build/*.js$script,domain=index.hr|www.index.hr
-! Brid adunit plugin must be loadable for the player runtime.
-! Ad delivery remains blocked by the existing vendor hard-blocks and the
-! fail-closed third-party perimeter.
-@@||services.brid.tv/player/build/plugins/adunit.js$script,domain=index.hr|www.index.hr
-@@||cdn.brid.tv/live/*$media,image,domain=index.hr|www.index.hr
-@@||cdn-uc.brid.tv/live/*$media,image,domain=index.hr|www.index.hr
-@@||media.brid.tv/live/*$media,image,domain=index.hr|www.index.hr
-@@||services.brid.tv/services/get/video/*$xhr,domain=index.hr|www.index.hr
-@@||services.brid.tv/services/get/playlist/*$xhr,domain=index.hr|www.index.hr
-@@||services.brid.tv/services/iframe/video/*$subdocument,domain=index.hr|www.index.hr
-@@||cdn.brid.tv/live/*$media,image,domain=index.hr|www.index.hr
-@@||imasdk.googleapis.com/js/sdkloader/ima3.js$script,domain=index.hr|www.index.hr
+||index.hr^$csp=connect-src 'self' https://index.hr https://*.index.hr https://youtube.com https://*.youtube.com https://youtube-nocookie.com https://*.youtube-nocookie.com https://vimeo.com https://*.vimeo.com https://*.vimeocdn.com https://facebook.com https://*.facebook.com https://instagram.com https://*.instagram.com https://*.cdninstagram.com https://tiktok.com https://*.tiktok.com https://twitter.com https://*.twitter.com https://x.com https://*.x.com https://*.twimg.com https://dailymotion.com https://*.dailymotion.com https://twitch.tv https://*.twitch.tv https://reddit.com https://*.reddit.com https://*.redditmedia.com https://*.redditstatic.com https://linkedin.com https://*.linkedin.com
 
 ! ============================================================
 ! 10) SOCIAL / VIDEO network exceptions
@@ -214,7 +194,6 @@ index.hr##iframe[src*="googleadservices.com"]
 @@||instagram.com^$domain=index.hr|www.index.hr
 @@||cdninstagram.com^$domain=index.hr|www.index.hr
 @@||tiktok.com^$domain=index.hr|www.index.hr
-@@||*.tiktokcdn-us.com/obj/tiktok-web-tx/tiktok/falcon/embed/*$script,stylesheet,domain=index.hr|www.index.hr
 @@||tiktokcdn.com^$domain=index.hr|www.index.hr
 @@||muscdn.com^$domain=index.hr|www.index.hr
 @@||twitter.com^$domain=index.hr|www.index.hr
@@ -259,20 +238,6 @@ index.hr##iframe[src*="googleadservices.com"]
 ||index.hr/*/promo/*$xhr,important,domain=index.hr|www.index.hr
 
 ! ============================================================
-! 13) VIDEO-COMPATIBILITY INVARIANT
-! - no existing $important vendor/domain ad block was modified
-! - no global third-party allowlist was added
-! - Brid exception is limited to player bootstrap + video API/iframe/media paths
-! - no generic `@@||brid.tv^` exception was added
-! - Brid player build and adunit runtime are allowed only from services.brid.tv
-! - ad delivery itself remains subject to the existing hard blocks/perimeter
-! - no page-level CSP allowlist is injected
-! - first-party Index Brid bootstrap iframe is explicitly exempted from the first-party frame deny rule
-! - Google exception is limited to the exact IMA SDK script
-! - nested resources inside the Brid child frame are not covered by the
-!   index.hr-scoped fail-closed perimeter, so this does not open third-party
-!   resources on the parent Index page itself
-
 ! 12) Intentionally preserved
 ! ============================================================
 ! - normal first-party Index scripts/images/media/fonts/styles

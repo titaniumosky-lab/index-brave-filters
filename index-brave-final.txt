@@ -1,6 +1,6 @@
 [Adblock Plus 3.10]
 ! Title: Index.hr - Brave Android FINAL ADCHOICES HARD + BRID + SOCIAL VIDEO
-! Version: 2026-09-21.2-VIDEO-COMPAT-BRID-CSP-MEDIA
+! Version: 2026-09-21.3-VIDEO-COMPAT-NO-CSP
 !
 ! Design goal:
 ! - block advertising without chasing each new delivery hostname
@@ -166,18 +166,16 @@ index.hr##iframe[src*="googleadservices.com"]
 ! 7) FAIL-CLOSED: unknown external iframe cosmetic perimeter
 !    Social/video iframe hosts below are excluded explicitly.
 ! ============================================================
-index.hr##iframe[src^="http"]:not([src*="services.brid.tv"]):not([src*="youtube.com"]):not([src*="youtube-nocookie.com"]):not([src*="vimeo.com"]):not([src*="vimeocdn.com"]):not([src*="facebook.com"]):not([src*="instagram.com"]):not([src*="cdninstagram.com"]):not([src*="tiktok.com"]):not([src*="twitter.com"]):not([src*="x.com"]):not([src*="twimg.com"]):not([src*="dailymotion.com"]):not([src*="dmcdn.net"]):not([src*="twitch.tv"]):not([src*="ttvnw.net"]):not([src*="jtvnw.net"]):not([src*="reddit.com"]):not([src*="redditmedia.com"]):not([src*="redditstatic.com"]):not([src*="linkedin.com"])
+! Unknown external iframes are already fail-closed at the network layer
+! via $3p,subdocument above. No cosmetic iframe perimeter is needed here.
+! This avoids hiding a legitimate player while its source is initialized.
 
 ! ============================================================
-! 8) CSP frame perimeter
+! 8) REMOVED — custom CSP perimeter
+!     Deliberately no page-level frame/connect CSP is injected here.
+!     The network fail-closed rules below provide the ad perimeter without
+!     imposing an additional allowlist that can break legitimate players.
 ! ============================================================
-||index.hr^$csp=frame-src 'self' https://youtube.com https://*.youtube.com https://youtube-nocookie.com https://*.youtube-nocookie.com https://vimeo.com https://*.vimeo.com https://*.vimeocdn.com https://services.brid.tv https://facebook.com https://*.facebook.com https://instagram.com https://*.instagram.com https://*.cdninstagram.com https://tiktok.com https://*.tiktok.com https://twitter.com https://*.twitter.com https://x.com https://*.x.com https://*.twimg.com https://dailymotion.com https://*.dailymotion.com https://twitch.tv https://*.twitch.tv https://reddit.com https://*.reddit.com https://*.redditmedia.com https://*.redditstatic.com https://linkedin.com https://*.linkedin.com
-||index.hr^$csp=object-src 'none'
-
-! ============================================================
-! 9) CSP connect perimeter
-! ============================================================
-||index.hr^$csp=connect-src 'self' https://index.hr https://*.index.hr https://services.brid.tv https://*.services.brid.tv https://cdn.brid.tv https://*.cdn.brid.tv https://youtube.com https://*.youtube.com https://youtube-nocookie.com https://*.youtube-nocookie.com https://vimeo.com https://*.vimeo.com https://*.vimeocdn.com https://facebook.com https://*.facebook.com https://instagram.com https://*.instagram.com https://*.cdninstagram.com https://tiktok.com https://*.tiktok.com https://twitter.com https://*.twitter.com https://x.com https://*.x.com https://*.twimg.com https://dailymotion.com https://*.dailymotion.com https://twitch.tv https://*.twitch.tv https://reddit.com https://*.reddit.com https://*.redditmedia.com https://*.redditstatic.com https://linkedin.com https://*.linkedin.com
 
 ! ============================================================
 ! 10) INDEX NATIVE VIDEO / BRID COMPATIBILITY
@@ -257,6 +255,7 @@ index.hr##iframe[src^="http"]:not([src*="services.brid.tv"]):not([src*="youtube.
 ! - no global third-party allowlist was added
 ! - Brid exception is limited to player bootstrap + video API/iframe/media paths
 ! - no generic `@@||brid.tv^` exception was added
+! - no page-level CSP allowlist is injected
 ! - Google exception is limited to the exact IMA SDK script
 ! - nested resources inside the Brid child frame are not covered by the
 !   index.hr-scoped fail-closed perimeter, so this does not open third-party

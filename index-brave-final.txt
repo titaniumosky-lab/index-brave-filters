@@ -183,7 +183,7 @@ index.hr##iframe[src*="googleadservices.com"]
 !     These exact paths are documented breakage fixes for Index video.
 ! ============================================================
 @@||index.hr/thirdparty/brid/*$script,1p
-@@||index.hr/thirdparty/brid/*$subdocument,1p
+@@||index.hr/thirdparty/brid/*$subdocument,1p,important
 @@||services.brid.tv/player/build/brid.min.js$script,domain=index.hr|www.index.hr
 @@||services.brid.tv/services/get/video/*$xhr,domain=index.hr|www.index.hr
 @@||services.brid.tv/services/get/playlist/*$xhr,domain=index.hr|www.index.hr

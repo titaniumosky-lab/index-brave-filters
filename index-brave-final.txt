@@ -1,6 +1,6 @@
 [Adblock Plus 3.10]
 ! Title: Index.hr - Brave Android FINAL ADCHOICES HARD + BRID + SOCIAL VIDEO
-! Version: 2026-09-21.4-VIDEO-COMPAT-FIRSTPARTY-BRID
+! Version: 2026-09-21.5-VIDEO-COMPAT-BRID-FULLCHAIN
 !
 ! Design goal:
 ! - block advertising without chasing each new delivery hostname
@@ -185,6 +185,11 @@ index.hr##iframe[src*="googleadservices.com"]
 @@||index.hr/thirdparty/brid/*$script,1p
 @@||index.hr/thirdparty/brid/*$subdocument,1p,important
 @@||services.brid.tv/player/build/brid.min.js$script,domain=index.hr|www.index.hr
+@@||services.brid.tv/player/build/*.js$script,domain=index.hr|www.index.hr
+||services.brid.tv/player/build/plugins/adunit.js$script,important,domain=index.hr|www.index.hr
+@@||cdn.brid.tv/live/*$media,image,domain=index.hr|www.index.hr
+@@||cdn-uc.brid.tv/live/*$media,image,domain=index.hr|www.index.hr
+@@||media.brid.tv/live/*$media,image,domain=index.hr|www.index.hr
 @@||services.brid.tv/services/get/video/*$xhr,domain=index.hr|www.index.hr
 @@||services.brid.tv/services/get/playlist/*$xhr,domain=index.hr|www.index.hr
 @@||services.brid.tv/services/iframe/video/*$subdocument,domain=index.hr|www.index.hr
@@ -256,6 +261,7 @@ index.hr##iframe[src*="googleadservices.com"]
 ! - no global third-party allowlist was added
 ! - Brid exception is limited to player bootstrap + video API/iframe/media paths
 ! - no generic `@@||brid.tv^` exception was added
+! - player build is allowed, but Brid adunit.js remains explicitly $important-blocked
 ! - no page-level CSP allowlist is injected
 ! - first-party Index Brid bootstrap iframe is explicitly exempted from the first-party frame deny rule
 ! - Google exception is limited to the exact IMA SDK script
